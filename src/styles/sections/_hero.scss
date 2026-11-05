@@ -1,0 +1,207 @@
+@use '../abstracts/mixins' as *;
+
+.hero {
+  position: relative;
+  height: 240vh;
+
+  @include up(md) {
+    height: 320vh;
+  }
+
+  .reduced-motion & {
+    height: auto;
+  }
+
+  &__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+
+    .reduced-motion & {
+      position: relative;
+      height: auto;
+      min-height: 100svh;
+    }
+  }
+
+  &__pixels {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3vh, 28px);
+    align-items: center;
+    justify-content: center;
+    padding-inline: var(--gutter);
+    text-align: center;
+
+    .reduced-motion & {
+      position: relative;
+      min-height: 100svh;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-pixel);
+    font-size: clamp(3.5rem, 1rem + 13vw, 14rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  // Once the canvas has drawn the pixel word, the real <h1> text stays for a11y/SEO but turns invisible.
+  &.is-canvas-ready &__title {
+    color: transparent;
+  }
+
+  &__sub {
+    max-width: 34ch;
+    font-size: var(--fs-lead);
+    color: var(--c-muted);
+  }
+
+  &__manifesto {
+    position: absolute;
+    inset: 50% var(--gutter) auto;
+    max-width: 30ch;
+    margin-inline: auto;
+    font-size: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1.25;
+    text-align: center;
+    text-wrap: balance;
+    opacity: 0;
+    translate: 0 -50%; // `translate` composes with GSAP's `transform: scale()`
+
+    strong {
+      color: var(--c-signal);
+    }
+
+    .reduced-motion & {
+      position: relative;
+      inset: auto;
+      padding-block: 20vh;
+      opacity: 1;
+      translate: none;
+    }
+  }
+
+  &__manifesto-cta {
+    display: block;
+    margin-top: 0.8em;
+    font-family: var(--font-pixel);
+    font-size: var(--fs-label);
+    color: var(--c-muted);
+    text-transform: uppercase;
+  }
+
+  &__scroll {
+    @include pixel-label;
+
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    color: var(--c-muted);
+    translate: -50% 0;
+  }
+
+  &__scroll-bar {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(var(--c-signal), transparent);
+    animation: scroll-hint 1.8s var(--ease-out) infinite;
+    transform-origin: top;
+  }
+}
+
+@keyframes scroll-hint {
+  0% {
+    transform: scaleY(0);
+  }
+
+  60% {
+    transform: scaleY(1);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+// ── Chapter covers ───────────────────────────────────────────────────────────
+.cover {
+  position: relative;
+  height: 200vh;
+
+  @include up(md) {
+    height: 300vh;
+  }
+
+  .reduced-motion & {
+    height: auto;
+  }
+
+  &__sticky {
+    position: sticky;
+    top: 0;
+    display: grid;
+    place-items: center;
+    height: 100svh;
+    overflow: hidden;
+
+    .reduced-motion & {
+      position: relative;
+      min-height: 80svh;
+    }
+  }
+
+  &__portal {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-pixel);
+    font-size: clamp(14rem, 50vw, 44rem);
+    line-height: 1;
+    color: var(--c-signal);
+    pointer-events: none;
+    opacity: 0.12;
+    user-select: none;
+  }
+
+  &__content {
+    position: relative;
+    display: grid;
+    gap: clamp(12px, 2.5vh, 24px);
+    justify-items: center;
+    padding-inline: var(--gutter);
+    text-align: center;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 400;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+
+  &__lead {
+    max-width: 42ch;
+    font-size: var(--fs-lead);
+    color: var(--c-muted);
+    text-wrap: balance;
+  }
+}

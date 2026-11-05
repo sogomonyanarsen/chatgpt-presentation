@@ -1,0 +1,193 @@
+@use '../abstracts/mixins' as *;
+
+// ── Eyebrow: `{ label }` in pixel type ──────────────────────────────────────
+.eyebrow {
+  @include pixel-label;
+
+  color: var(--c-muted);
+}
+
+// ── Pill button ──────────────────────────────────────────────────────────────
+.pill-btn {
+  @include pixel-corners(var(--c-signal), 4px);
+
+  display: inline-flex;
+  gap: 0.75em;
+  align-items: center;
+  padding: 0.85em 1.6em;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-label);
+  color: var(--c-ink);
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: rgb(255 255 255 / 4%);
+  border: 1px solid var(--c-line-strong);
+  border-radius: 999px;
+  transition:
+    background-color 0.25s var(--ease-out),
+    color 0.25s var(--ease-out),
+    border-color 0.25s;
+
+  &:hover:not(:disabled) {
+    color: var(--c-void);
+    background-color: var(--c-signal);
+    border-color: var(--c-signal);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  &--small {
+    padding: 0.7em 1.2em;
+  }
+
+  &--ghost {
+    background-color: transparent;
+  }
+
+  &__arrow {
+    display: inline-block;
+    animation: bob 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+// ── Pixel glyph icons ────────────────────────────────────────────────────────
+.glyph {
+  width: 48px;
+  height: 48px;
+  fill: currentcolor;
+}
+
+// ── Code blocks (highlighted at build time) ─────────────────────────────────
+.code-block {
+  position: relative;
+  padding: 2.4em 1.25em 1.25em;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #d7d8dc;
+  tab-size: 2;
+  background: #0a0b0e;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+
+  &::before {
+    @include pixel-label;
+
+    position: absolute;
+    top: 0.9em;
+    left: 1.25em;
+    font-size: 0.625rem;
+    color: var(--c-muted);
+    content: attr(data-lang);
+  }
+
+  &::after {
+    position: absolute;
+    top: 1em;
+    right: 1.25em;
+    width: 34px;
+    height: 6px;
+    content: '';
+    background: radial-gradient(circle, var(--c-line-strong) 3px, transparent 3.5px) 0 0 / 12px 6px
+      repeat-x;
+  }
+}
+
+.tok-k {
+  color: #c792ea;
+}
+
+.tok-s {
+  color: var(--c-signal);
+}
+
+.tok-n {
+  color: #f78c6c;
+}
+
+.tok-f {
+  color: #82aaff;
+}
+
+.tok-c {
+  font-style: italic;
+  color: #6b6f7a;
+}
+
+// ── Form controls used by demos ──────────────────────────────────────────────
+.field-label {
+  @include pixel-label;
+
+  display: block;
+  margin-bottom: 0.5em;
+  color: var(--c-muted);
+}
+
+.slider {
+  display: grid;
+  gap: 0.4em;
+
+  &__label {
+    @include pixel-label;
+
+    display: flex;
+    justify-content: space-between;
+    color: var(--c-muted);
+
+    output {
+      color: var(--c-signal);
+    }
+  }
+
+  input {
+    width: 100%;
+    accent-color: var(--c-signal);
+  }
+}
+
+.switch {
+  display: inline-flex;
+  gap: 0.5em;
+  align-items: center;
+  cursor: pointer;
+
+  input {
+    accent-color: var(--c-signal);
+  }
+}
+
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--c-signal);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+// Shared “HUD panel” surface used by demo stages and capability cards.
+%hud-surface {
+  @include pixel-corners(var(--c-line-strong), 5px);
+
+  padding: clamp(18px, 2.2vw, 30px);
+  background-color: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: 2px;
+  backdrop-filter: blur(8px);
+}

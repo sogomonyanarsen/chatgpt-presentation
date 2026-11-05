@@ -1,0 +1,226 @@
+@use '../abstracts/mixins' as *;
+@use '../components/ui';
+
+.caps {
+  padding-inline: var(--gutter);
+}
+
+.cap {
+  display: grid;
+  gap: 20px;
+  align-content: center;
+  max-width: var(--max-w);
+  min-height: 100svh;
+  margin-inline: auto;
+  padding-block: 12vh;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 1fr 1.15fr;
+    grid-template-areas:
+      'head how hood'
+      'tip  tip  tip';
+    gap: 24px 32px;
+    align-items: start;
+  }
+
+  @include up(md) {
+    @include down(lg) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        'head head'
+        'how  hood'
+        'tip  tip';
+    }
+  }
+
+  &__head {
+    grid-area: head;
+  }
+
+  &__index {
+    font-family: var(--font-pixel);
+    font-size: 1.1rem;
+    color: var(--c-signal);
+
+    span {
+      color: var(--c-muted);
+    }
+  }
+
+  &__glyph {
+    width: 56px;
+    height: 56px;
+    margin-block: 20px 16px;
+    color: var(--c-signal);
+  }
+
+  &__name {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 1.6rem + 2.8vw, 4.5rem);
+    font-weight: 400;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+
+  &__tagline {
+    @include pixel-label;
+
+    margin-block: 14px 18px;
+    color: var(--c-muted);
+  }
+
+  &__what {
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+  }
+
+  &__how,
+  &__hood {
+    @extend %hud-surface;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  &__how {
+    grid-area: how;
+  }
+
+  &__hood {
+    grid-area: hood;
+  }
+
+  &__eyebrow {
+    color: var(--c-signal);
+  }
+
+  &__steps {
+    display: grid;
+    gap: 12px;
+    counter-reset: step;
+
+    li {
+      position: relative;
+      padding-left: 38px;
+      font-size: 0.95rem;
+      counter-increment: step;
+
+      &::before {
+        position: absolute;
+        top: 0.1em;
+        left: 0;
+        display: grid;
+        place-items: center;
+        width: 26px;
+        height: 22px;
+        font-family: var(--font-pixel);
+        font-size: 0.7rem;
+        color: var(--c-void);
+        content: counter(step);
+        background: var(--c-ink);
+      }
+    }
+  }
+
+  &__hood-body {
+    font-size: 0.95rem;
+    color: #d6d6da;
+  }
+
+  &__code {
+    min-width: 0;
+  }
+
+  &__code-label {
+    @include pixel-label;
+
+    margin-bottom: 8px;
+    font-size: 0.625rem;
+    color: var(--c-muted);
+  }
+
+  &__tip {
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: tip;
+    gap: 6px 16px;
+    align-items: baseline;
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    background: color-mix(in srgb, var(--c-signal) 8%, transparent);
+    border-left: 4px solid var(--c-signal);
+  }
+
+  &__tip-label {
+    @include pixel-label;
+
+    color: var(--c-signal);
+  }
+}
+
+// Data-flow mini diagram
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+
+  &__node {
+    position: relative;
+    padding: 5px 9px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    border: 1px solid var(--c-line-strong);
+
+    &:not(:last-child) {
+      margin-right: 18px;
+
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: -19px;
+        color: var(--c-signal);
+        content: '→';
+        translate: 0 -50%;
+      }
+    }
+  }
+}
+
+// “Try it” prompt
+.try {
+  position: relative;
+  margin-top: auto;
+  padding: 14px 16px;
+  background: rgb(0 0 0 / 40%);
+  border: 1px dashed var(--c-line-strong);
+
+  &__label {
+    @include pixel-label;
+
+    font-size: 0.625rem;
+    color: var(--c-signal);
+  }
+
+  &__prompt {
+    margin-block: 6px 10px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  &__copy {
+    @include pixel-label;
+
+    padding: 6px 10px;
+    font-size: 0.625rem;
+    border: 1px solid var(--c-line-strong);
+
+    &:hover {
+      color: var(--c-void);
+      background: var(--c-signal);
+    }
+  }
+}

@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+*.log
+.env*
+.vite
+
+# Local notes & tooling
+Chat GPT Presentation.txt
+.claude/

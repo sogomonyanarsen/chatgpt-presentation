@@ -1,0 +1,254 @@
+@use '../abstracts/mixins' as *;
+
+// Fixed chrome sits over every surface; light timeline panels flip it to dark ink (see hscroll.ts).
+:root {
+  --chrome-ink: var(--c-ink);
+}
+
+body[data-surface='light'] {
+  --chrome-ink: #111;
+}
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding-inline: var(--gutter);
+  color: var(--chrome-ink);
+  pointer-events: none;
+  transition: color 0.4s;
+
+  > * {
+    pointer-events: auto;
+  }
+
+  &__brand {
+    @include pixel-label;
+
+    text-decoration: none;
+  }
+
+  &__slash {
+    opacity: 0.5;
+  }
+
+  &__chapter {
+    @include pixel-label;
+
+    display: none;
+    gap: 0.75em;
+
+    @include up(md) {
+      display: flex;
+    }
+  }
+
+  &__chapter-num {
+    opacity: 0.5;
+  }
+}
+
+.menu-toggle {
+  @include pixel-label;
+
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 0;
+
+  &__label {
+    display: none;
+
+    @include up(sm) {
+      display: inline;
+    }
+  }
+
+  &__icon {
+    display: grid;
+    grid-template-columns: repeat(2, 5px);
+    gap: 6px;
+
+    i {
+      width: 5px;
+      height: 5px;
+      background: currentcolor;
+      transition: transform 0.4s var(--ease-out);
+    }
+  }
+
+  &[aria-expanded='true'] &__icon i {
+    &:nth-child(1) {
+      transform: translate(5.5px, 5.5px);
+    }
+
+    &:nth-child(2) {
+      transform: translate(-5.5px, 5.5px);
+    }
+
+    &:nth-child(3) {
+      transform: translate(5.5px, -5.5px);
+    }
+
+    &:nth-child(4) {
+      transform: translate(-5.5px, -5.5px);
+    }
+  }
+}
+
+// ── Chapter menu overlay ────────────────────────────────────────────────────
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--header-h) + 24px) var(--gutter) 32px;
+  overflow-y: auto;
+  background: rgb(5 5 6 / 92%);
+  backdrop-filter: blur(14px);
+  animation: menu-in 0.45s var(--ease-out);
+
+  &__list {
+    display: grid;
+    gap: clamp(4px, 1vh, 12px);
+    max-width: var(--max-w);
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  &__link {
+    display: flex;
+    gap: clamp(16px, 3vw, 40px);
+    align-items: baseline;
+    padding-block: 0.1em;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1rem + 5vw, 5.5rem);
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--c-line);
+    transition:
+      color 0.25s,
+      padding-left 0.4s var(--ease-out);
+
+    &:hover,
+    &:focus-visible {
+      padding-left: 0.4em;
+      color: var(--c-signal);
+    }
+  }
+
+  &__num {
+    font-family: var(--font-pixel);
+    font-size: var(--fs-small);
+    color: var(--c-muted);
+  }
+
+  &__hint {
+    max-width: var(--max-w);
+    width: 100%;
+    margin: 32px auto 0;
+    font-size: var(--fs-small);
+    color: var(--c-muted);
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+// ── Progress rail (right edge) ──────────────────────────────────────────────
+.rail {
+  position: fixed;
+  top: calc(var(--header-h) + 24px);
+  right: calc(var(--gutter) / 2 - 3px);
+  bottom: 96px;
+  z-index: 40;
+  display: none;
+  width: 7px;
+  color: var(--chrome-ink);
+  pointer-events: none;
+  transition: color 0.4s;
+
+  @include up(sm) {
+    display: block;
+  }
+
+  &__track {
+    position: absolute;
+    inset: 0 3px;
+    background: radial-gradient(circle, currentcolor 0.7px, transparent 1px) 0 0 / 1px 6px repeat-y;
+    opacity: 0.5;
+  }
+
+  &__fill {
+    position: absolute;
+    inset: 0;
+    background: currentcolor;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  &__tick {
+    position: absolute;
+    left: 0;
+    width: 7px;
+    height: 1px;
+    background: currentcolor;
+  }
+
+  &__cursor {
+    position: absolute;
+    left: -1px;
+    width: 9px;
+    height: 9px;
+    background: var(--c-signal);
+    box-shadow: 0 0 0 1px var(--c-void);
+    transform: translateY(-50%);
+  }
+}
+
+// ── Presenter key hint ───────────────────────────────────────────────────────
+.keys-hint {
+  @include pixel-label;
+
+  position: fixed;
+  bottom: 20px;
+  left: var(--gutter);
+  z-index: 40;
+  display: none;
+  gap: 0.4em;
+  align-items: center;
+  color: var(--c-muted);
+  transition: opacity 0.6s;
+
+  @media (hover: hover) and (width >= 900px) {
+    display: flex;
+  }
+
+  // Only needed on the title screen; never overlaps the timeline's year nav.
+  .has-used-keys &,
+  .is-past-intro & {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__sep {
+    opacity: 0.5;
+  }
+}
+
+body.is-menu-open {
+  overflow: hidden;
+}

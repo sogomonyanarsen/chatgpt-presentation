@@ -1,0 +1,126 @@
+@use '../abstracts/mixins' as *;
+
+html {
+  color-scheme: dark;
+  scroll-behavior: auto;
+  background: var(--c-void);
+
+  &.lenis,
+  &.lenis body {
+    height: auto;
+  }
+}
+
+body {
+  min-height: 100svh;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--c-ink);
+  background: var(--c-void);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  color: var(--c-void);
+  background: var(--c-signal);
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+strong {
+  font-weight: 650;
+}
+
+code,
+kbd,
+pre {
+  font-family: var(--font-mono);
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.35em;
+  font-size: 0.88em;
+  background: rgb(255 255 255 / 8%);
+  border-radius: 3px;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0.1em 0.4em;
+  font-size: 0.8em;
+  text-align: center;
+  border: 1px solid var(--c-line-strong);
+  border-radius: 3px;
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  color: var(--c-void);
+  background: var(--c-signal);
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
+}
+
+.noscript {
+  padding: 16px var(--gutter);
+  color: var(--c-void);
+  background: var(--c-signal);
+}
+
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 3%) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

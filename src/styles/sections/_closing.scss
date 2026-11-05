@@ -1,0 +1,252 @@
+@use '../abstracts/mixins' as *;
+@use '../components/ui';
+
+// ── Playbook ────────────────────────────────────────────────────────────────
+.playbook {
+  padding-inline: var(--gutter);
+
+  &__block {
+    display: grid;
+    gap: 20px;
+    align-content: center;
+    max-width: var(--max-w);
+    min-height: 100svh;
+    margin-inline: auto;
+    padding-block: 12vh;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 400;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  &__intro {
+    max-width: 62ch;
+    font-size: var(--fs-lead);
+    color: var(--c-muted);
+
+    strong {
+      color: var(--c-ink);
+    }
+  }
+
+  &__code-grid {
+    display: grid;
+    gap: 20px;
+    min-width: 0;
+
+    @include up(lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+$parts: (
+  role: #7cc4ff,
+  task: #c8ff3d,
+  constraints: #ff9ecb,
+  format: #ffd36b,
+  examples: #9d8cff,
+);
+
+.anatomy {
+  @extend %hud-surface;
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  &__key {
+    @include pixel-label;
+
+    padding: 8px 12px;
+    font-size: 0.6875rem;
+    border: 1px solid currentcolor;
+  }
+
+  &__prompt {
+    font-family: var(--font-mono);
+    font-size: clamp(0.95rem, 0.85rem + 0.5vw, 1.25rem);
+    line-height: 1.8;
+  }
+
+  &__part {
+    padding-bottom: 2px;
+    transition: opacity 0.3s;
+  }
+
+  @each $name, $color in $parts {
+    &__key--#{$name} {
+      color: $color;
+    }
+
+    &__part--#{$name} {
+      color: $color;
+      border-bottom: 2px solid color-mix(in srgb, #{$color} 50%, transparent);
+    }
+
+    &[data-active='#{$name}'] .anatomy__part:not(.anatomy__part--#{$name}) {
+      opacity: 0.2;
+    }
+  }
+}
+
+.checklist {
+  display: grid;
+  gap: 4px;
+  counter-reset: check;
+
+  &__item {
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+    padding: clamp(14px, 2vh, 22px) 0;
+    font-size: var(--fs-lead);
+    border-bottom: 1px solid var(--c-line);
+    counter-increment: check;
+
+    &::before {
+      flex: none;
+      width: 3ch;
+      font-family: var(--font-pixel);
+      font-size: var(--fs-small);
+      color: var(--c-signal);
+      content: counter(check, decimal-leading-zero);
+    }
+  }
+}
+
+// ── Future (horizontal cards) ───────────────────────────────────────────────
+.future {
+  &__track {
+    display: grid;
+    gap: 20px;
+    padding: 8vh var(--gutter);
+
+    .is-horizontal & {
+      gap: clamp(24px, 3vw, 48px);
+      align-items: center;
+      padding: calc(var(--header-h) + 4vh) 12vw 8vh;
+    }
+  }
+}
+
+.trend {
+  @extend %hud-surface;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .is-horizontal & {
+    width: clamp(340px, 34vw, 560px);
+    height: min(72svh, 640px);
+  }
+
+  &__num {
+    font-family: var(--font-pixel);
+    font-size: clamp(3rem, 2rem + 3vw, 5.5rem);
+    line-height: 1;
+    color: var(--c-signal);
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.4rem + 1.8vw, 3.25rem);
+    font-weight: 400;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  &__body {
+    color: #d6d6da;
+  }
+
+  &__for-us {
+    display: grid;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 16px;
+    font-size: 0.95rem;
+    border-top: 1px dashed var(--c-line-strong);
+  }
+
+  &__for-us-label {
+    @include pixel-label;
+
+    font-size: 0.625rem;
+    color: var(--c-signal);
+  }
+}
+
+// ── Outro ───────────────────────────────────────────────────────────────────
+.outro {
+  display: grid;
+  align-content: center;
+  min-height: 100svh;
+  padding: 16vh var(--gutter) 10vh;
+
+  &__stage {
+    display: grid;
+    gap: 16px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  &__title {
+    font-family: var(--font-pixel);
+    font-size: clamp(2.25rem, 0.5rem + 9vw, 12rem);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--c-signal);
+    text-shadow: 0 0 40px rgb(200 255 61 / 35%);
+  }
+
+  &__lead {
+    font-size: var(--fs-lead);
+    color: var(--c-muted);
+  }
+
+  &__refs {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    max-width: 900px;
+    margin: 12vh auto 0;
+  }
+
+  &__note {
+    font-size: var(--fs-small);
+    color: var(--c-muted);
+  }
+}
+
+.refs {
+  border-top: 1px solid var(--c-line);
+
+  &__summary {
+    @include pixel-label;
+
+    padding-block: 14px;
+    cursor: pointer;
+  }
+
+  &__list {
+    display: grid;
+    gap: 8px;
+    padding-bottom: 20px;
+    font-size: var(--fs-small);
+    color: var(--c-muted);
+    list-style: decimal inside;
+
+    a:hover {
+      color: var(--c-signal);
+    }
+  }
+}
