@@ -28,7 +28,7 @@ const demo = ({ id, index, title, intro, stage, notes, wide = false }: DemoShell
 <article class="demo${wide ? ' demo--wide' : ''}" id="${id}" data-stop data-dive aria-labelledby="${id}-title">
   <header class="demo__head">
     <p class="demo__index">${index}</p>
-    <h3 class="demo__title" id="${id}-title" data-scramble>${esc(title)}</h3>
+    <h3 class="demo__title" id="${id}-title" data-fade-in>${esc(title)}</h3>
     <p class="demo__intro">${intro}</p>
   </header>
   <div class="demo__stage">${stage}</div>
@@ -40,7 +40,7 @@ const tokenizer = demo({
   index: '2.1',
   title: 'Tokens, not words',
   intro:
-    'Before the model sees your prompt, a tokenizer splits it into sub-word pieces and maps each one to an integer ID. This demo runs the <strong>real</strong> <code>o200k_base</code> vocabulary used by modern GPT models (~200k tokens).',
+    'AI models don’t read letters or words. They read <strong>tokens</strong>: common chunks of text, each with a number. Type below to see how ChatGPT really splits your text (this uses the <strong>real</strong> GPT vocabulary).',
   stage: `
     <div class="tokenizer" data-demo="tokenizer">
       <label class="field-label" for="tokenizer-input">Type anything</label>
@@ -56,18 +56,18 @@ const tokenizer = demo({
       </div>
     </div>`,
   notes: [
-    'An English word is ~1.3 tokens on average. Code, emoji and non-Latin scripts such as Armenian use more.',
-    '<strong>Pricing and context limits are counted in tokens</strong>, not characters.',
-    'Why can models miscount letters in “strawberry”? They never see letters, only token IDs.',
+    'Common English words are usually one token. Rare words, code, emoji and Armenian text take more.',
+    '<strong>Prices and length limits are counted in tokens</strong>, not characters.',
+    'This is why AI can miscount the letters in “strawberry”: it never sees single letters.',
   ],
 });
 
 const sampling = demo({
   id: 'demo-sampling',
   index: '2.2',
-  title: 'One token at a time',
+  title: 'Guessing the next word',
   intro:
-    'The network outputs a score (<em>logit</em>) for every token in its vocabulary. <code>softmax(logits / T)</code> turns those scores into probabilities, then one token is <strong>sampled</strong>. It is appended to the input and the whole process repeats.',
+    'At every step the model gives each possible next word a <strong>chance</strong>, then picks one, a bit like a weighted dice roll. It adds that word and repeats. Press <em>Sample</em> to roll the dice.',
   stage: `
     <div class="sampler" data-demo="sampling">
       <p class="sampler__prompt"><span class="sampler__prompt-label">prompt →</span> The best way to style a component is with<span class="sampler__picked" data-picked></span><span class="caret" aria-hidden="true"></span></p>
@@ -88,29 +88,28 @@ const sampling = demo({
       <ol class="sampler__bars" data-bars aria-label="Next-token probabilities"></ol>
     </div>`,
   notes: [
-    '<strong>T → 0</strong>: always take the top token (deterministic, can get repetitive). <strong>T &gt; 1</strong>: flatter distribution, more surprising output.',
-    '<strong>top-p</strong> keeps the smallest set of tokens whose probabilities add up to p, and drops the long tail of unlikely tokens.',
-    'Illustrative logits. A real model scores all ~200k tokens on every step.',
+    '<strong>Low temperature</strong> = safe and predictable (always the favourite). <strong>High temperature</strong> = more creative and random.',
+    '<strong>top-p</strong> throws away the unlikely options before rolling, so answers don’t go off the rails.',
+    'The numbers here are made up for the demo. A real model scores all ~200,000 tokens at every step.',
   ],
 });
 
 const attention = demo({
   id: 'demo-attention',
   index: '2.3',
-  title: 'Attention: who looks at whom',
+  title: 'Attention: which words matter',
   intro:
-    'Each token produces a <em>query</em>, a <em>key</em> and a <em>value</em>. A token’s query is compared with every key, and the resulting weights decide how much of each value flows into that token’s new representation. <strong>Hover or focus a token</strong>.',
+    'To understand a word, the model looks back at the other words and decides which ones matter most. That’s <strong>attention</strong>. <strong>Hover over a word</strong> to see where it looks. Thicker line = more important.',
   stage: `
     <div class="attention" data-demo="attention">
       <div class="attention__sentence" data-sentence role="group" aria-label="Sentence tokens"></div>
       <svg class="attention__arcs" data-arcs aria-hidden="true"></svg>
       <p class="attention__readout" data-readout aria-live="polite">Pick a token to see where it attends.</p>
-      <pre class="attention__formula"><code>weights = softmax(q · Kᵀ / √d)    out = weights · V</code></pre>
     </div>`,
   notes: [
-    'Try <strong>“it”</strong>: the model has to decide whether it refers to the bug or the build.',
-    'Real models run dozens of attention <em>heads</em> per layer and stack 100+ layers. Each head learns different relations (syntax, coreference, position).',
-    'Attention cost grows with the <strong>square of the context length</strong>, which is why long context is expensive.',
+    'Try <strong>“it”</strong>: does it mean the bug or the build? Attention is how the model figures that out.',
+    'Words can only look <em>back</em>, never ahead. That’s because the model writes one word at a time.',
+    'Real models do this in many layers at once, each noticing different things (grammar, meaning, position).',
   ],
 });
 
@@ -118,32 +117,32 @@ const stages = [
   [
     '01',
     'Pre-training',
-    'Next-token prediction over trillions of tokens of web, books and code. Produces a “base model” that can continue any text.',
-    'weeks · thousands of GPUs',
+    'Reads a huge part of the internet, books and code, guessing the next word over and over. Result: a model that knows a lot but just rambles.',
+    'months · thousands of GPUs',
   ],
   [
     '02',
-    'Supervised fine-tuning',
-    'Trained on curated conversations written or checked by people, so it learns the assistant format.',
-    'demonstrations',
+    'Learning by example',
+    'Studies thousands of good example conversations written by people, so it learns to behave like a helpful assistant.',
+    'good examples',
   ],
   [
     '03',
-    'RLHF',
-    'A reward model learned from human rankings scores answers, and RL pushes the model toward helpful, honest and harmless responses.',
-    'preferences',
+    'Human feedback',
+    'People compare answers and pick the better one. The model is trained to give the kind of answers people prefer.',
+    '👍 / 👎',
   ],
   [
     '04',
-    'Reasoning RL',
-    'Rewards chains of thought that reach verifiably correct results in maths, code and tool use.',
-    'verifiable rewards',
+    'Practice problems',
+    'Solves maths and coding problems with checkable answers, and gets rewarded when its step-by-step thinking reaches the right result.',
+    'right / wrong',
   ],
   [
     '05',
     'Deployment',
-    'System prompt, tools, memory, safety classifiers and the router are added around the model. This is what you call “ChatGPT”.',
-    'product layer',
+    'The app around the model: instructions, web search, memory, safety filters and the fast/thinking switch. Together, that’s “ChatGPT”.',
+    'the product',
   ],
 ] as const;
 
@@ -153,7 +152,7 @@ const training = demo({
   wide: true,
   title: 'How a model becomes ChatGPT',
   intro:
-    'A modern assistant is built in stages. Each stage changes <em>behaviour</em> far more than it changes <em>knowledge</em>.',
+    'An assistant is built in stages. The first stage gives it knowledge, and the later ones teach it how to behave.',
   stage: `
     <ol class="pipeline">
       ${stages
@@ -169,8 +168,8 @@ const training = demo({
         .join('')}
     </ol>`,
   notes: [
-    'The knowledge cut-off comes from stage 01. Anything newer needs search or tools.',
-    'The <em>personality</em> (tone, refusals, formatting) mostly comes from stages 02–03.',
+    'What it “knows” stops at the date of stage 01. For anything newer it needs web search.',
+    'Its personality (tone, politeness, formatting) mostly comes from stages 02 and 03.',
   ],
 });
 
@@ -179,7 +178,7 @@ const streaming = demo({
   index: '2.5',
   title: 'Why the text “types itself”',
   intro:
-    'Tokens are generated one after another, so the API streams them as <strong>Server-Sent Events</strong> as soon as each is ready. The UI appends each delta, which is why answers seem to type. Press send and watch the wire.',
+    'The model creates its answer one piece at a time, so the server sends each piece the moment it’s ready (using <strong>Server-Sent Events</strong>). The page adds them as they arrive, which is why the text appears to type itself. Press Send and watch the network messages on the right.',
   stage: `
     <div class="stream" data-demo="streaming">
       <div class="stream__chat">
@@ -197,9 +196,9 @@ const streaming = demo({
     </div>
     <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(SSE_SNIPPET, 'ts')}</code></pre>`,
   notes: [
-    'Time to first token is what makes a model <em>feel</em> fast. Stream every answer.',
-    'Render Markdown incrementally and sanitise it. Model output is <strong>untrusted input</strong>.',
-    'Production code also buffers partial lines across chunks. The loop above is simplified.',
+    'Showing the first words quickly makes AI <em>feel</em> fast, even if the full answer takes a while. Always stream.',
+    'Treat AI output like user input: <strong>sanitise it</strong> before putting it in the page.',
+    'The code above is simplified to show the idea.',
   ],
 });
 

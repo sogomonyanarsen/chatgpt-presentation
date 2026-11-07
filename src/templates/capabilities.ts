@@ -1,5 +1,6 @@
 import { capabilities } from '../data/capabilities';
 import type { Capability } from '../data/types';
+import { creditLine, zoomableImage } from './figure';
 import { glyph } from './glyphs';
 import { highlight } from './highlight';
 import { each, esc, eyebrow } from './html';
@@ -27,9 +28,17 @@ const capability = (cap: Capability): string => `
   <header class="cap__head">
     <p class="cap__index">${cap.index}<span>/10</span></p>
     ${glyph(cap.glyph, 'glyph cap__glyph')}
-    <h3 class="cap__name" id="cap-${cap.id}-title" data-scramble>${esc(cap.name)}</h3>
+    <h3 class="cap__name" id="cap-${cap.id}-title" data-fade-in>${esc(cap.name)}</h3>
     <p class="cap__tagline">${esc(cap.tagline)}</p>
     <p class="cap__what">${cap.what}</p>
+    ${
+      cap.image
+        ? `<figure class="cap__figure">
+            <div class="cap__figure-frame">${zoomableImage(cap.image)}</div>
+            <figcaption class="cap__credit">${creditLine(cap.image)}</figcaption>
+          </figure>`
+        : ''
+    }
   </header>
   <section class="cap__how" aria-label="How to use it">
     ${eyebrow('how to use', 'eyebrow cap__eyebrow')}

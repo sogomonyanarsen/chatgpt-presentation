@@ -19,6 +19,8 @@ export interface Figure {
   /** Diagrams are shown untinted; photos get the duotone treatment. */
   kind: 'photo' | 'diagram' | 'screenshot';
   caption?: string;
+  /** Render as the small offset “polaroid” instead of the main image. */
+  polaroid?: boolean;
 }
 
 export interface Stat {
@@ -36,7 +38,7 @@ export interface TimelineEntry {
   tag: string;
   theme: PanelTheme;
   lead: Rich;
-  /** First figure is the hero image; a second one renders as a small offset “polaroid”. */
+  /** Main image and/or a small offset “polaroid” (marked with `polaroid: true`). */
   figures?: Figure[];
   stats?: Stat[];
   /** Hand-built HTML illustration for eras without archival photos. */
@@ -51,6 +53,7 @@ export interface Capability {
   tagline: string;
   /** Pixel-art glyph rendered from a 7x7 bitmap (see templates/glyphs.ts). */
   glyph: string;
+  image?: Figure;
   what: Rich;
   steps: Rich[];
   hood: Rich;

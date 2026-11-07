@@ -1,22 +1,16 @@
-import { credits } from '../data/sources';
 import { timeline } from '../data/timeline';
 import type { Figure, Stat, TimelineEntry } from '../data/types';
+import { creditLine, zoomableImage } from './figure';
 import { each, esc, eyebrow } from './html';
 
-const figure = (fig: Figure, modifier: string): string => {
-  const credit = credits[fig.credit];
-  if (!credit) throw new Error(`Missing credit "${fig.credit}" for ${fig.src}`);
-  return `
+const figure = (fig: Figure, modifier: string): string => `
   <figure class="panel__figure panel__figure--${modifier} panel__figure--${fig.kind}"${fig.kind === 'photo' ? ' data-parallax' : ''}>
-    <div class="panel__figure-frame">
-      <img src="${fig.src}" width="${fig.width}" height="${fig.height}" alt="${esc(fig.alt)}" loading="lazy" decoding="async" />
-    </div>
+    <div class="panel__figure-frame">${zoomableImage(fig)}</div>
     <figcaption class="panel__credit">
       ${fig.caption ? `<span class="panel__caption">${esc(fig.caption)}</span>` : ''}
-      <a href="${credit.url}" target="_blank" rel="noopener noreferrer">${esc(credit.author)}</a>, ${esc(credit.license)}
+      ${creditLine(fig)}
     </figcaption>
   </figure>`;
-};
 
 const stat = (s: Stat): string => `
   <div class="panel__stat">
@@ -56,7 +50,8 @@ const MOCKS: Record<NonNullable<TimelineEntry['mock']>, string> = {
 };
 
 const panel = (entry: TimelineEntry): string => {
-  const [main, polaroid] = entry.figures ?? [];
+  const main = entry.figures?.find((f) => !f.polaroid);
+  const polaroid = entry.figures?.find((f) => f.polaroid);
   return `
   <li class="panel panel--${entry.theme}" id="${entry.id}" data-panel data-nav-label="${esc(entry.navLabel)}">
     <article class="panel__inner" aria-labelledby="${entry.id}-title">

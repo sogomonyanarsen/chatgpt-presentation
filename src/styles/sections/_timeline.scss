@@ -218,6 +218,7 @@
       position: absolute;
       inset: 0;
       content: '';
+      pointer-events: none; // clicks go through to the zoom button
       background: var(--duo);
       mix-blend-mode: screen;
       opacity: 0.55;

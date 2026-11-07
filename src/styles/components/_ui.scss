@@ -59,20 +59,15 @@
   }
 }
 
-// ── Heading scramble overlay (see effects/scramble.ts) ─────────────────────
-[data-scramble] {
-  position: relative;
-}
+// ── Heading fade-in (see effects/fade-in.ts) ───────────────────────────────
+// Only hidden when JS is running, so content is never lost without it.
+.js [data-fade-in] {
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out);
 
-.is-scrambling {
-  -webkit-text-fill-color: transparent; // real text keeps the layout box; overlay paints glyphs
-}
-
-.scramble {
-  position: absolute;
-  inset: 0;
-  -webkit-text-fill-color: currentcolor;
-  pointer-events: none;
+  &.is-visible {
+    opacity: 1;
+  }
 }
 
 // ── Pixel glyph icons ────────────────────────────────────────────────────────
@@ -205,4 +200,91 @@
   background-color: var(--c-surface);
   border: 1px solid var(--c-line);
   border-radius: 2px;
+}
+
+// ── Zoomable images + lightbox (see effects/lightbox.ts) ────────────────────
+.zoomable {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  cursor: zoom-in;
+
+  // `scale` (not `transform`) so it composes with GSAP's parallax transform on the same image.
+  img {
+    transition: scale 0.6s var(--ease-out);
+  }
+
+  &:hover img,
+  &:focus-visible img {
+    scale: 1.04;
+  }
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(5 5 6 / 92%);
+  }
+
+  &__frame {
+    position: fixed;
+    overflow: hidden;
+    border-radius: 2px;
+    box-shadow: 0 40px 120px rgb(0 0 0 / 60%);
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    will-change: transform;
+  }
+
+  &__caption {
+    position: fixed;
+    inset: auto var(--gutter) clamp(16px, 4vh, 40px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    justify-content: center;
+    font-size: var(--fs-small);
+    color: var(--c-muted);
+    text-align: center;
+  }
+
+  &__title {
+    color: var(--c-ink);
+  }
+
+  &__close {
+    position: fixed;
+    top: 16px;
+    right: var(--gutter);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--c-ink);
+    border: 1px solid var(--c-line-strong);
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--c-void);
+      background: var(--c-signal);
+    }
+  }
+}
+
+body.is-lightbox-open {
+  overflow: hidden;
 }

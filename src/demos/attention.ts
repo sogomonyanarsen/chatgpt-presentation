@@ -85,7 +85,7 @@ export const initAttention = (root: HTMLElement): void => {
       .slice(0, 2)
       .map(({ w, k }) => `“${TOKENS[k] ?? ''}” ${(w * 100).toFixed(0)}%`)
       .join(', ');
-    readout.textContent = `“${TOKENS[current] ?? ''}” attends most to ${top || 'itself'}. Later tokens are masked out (causal attention).`;
+    readout.textContent = `“${TOKENS[current] ?? ''}” attends most to ${top || 'itself'}. Greyed-out words come later, so it can’t see them yet.`;
   };
 
   const select = (event: Event): void => {

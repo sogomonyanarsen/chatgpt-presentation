@@ -9,39 +9,39 @@ export interface Trend {
 export const trends: Trend[] = [
   {
     title: 'Agents that work for hours',
-    body: 'Task length is the metric to watch. We went from answering one question to running multi-hour jobs across tools with plan, approval and verification steps.',
+    body: 'AI went from answering one question to working on a task for hours: making a plan, using tools, and checking its own work.',
     forUs:
-      'Expect PRs, QA passes and migrations written by agents. Reviewing, specifying and testing become core skills.',
+      'Expect pull requests and QA reports written by AI. Writing clear tasks, reviewing and testing become key skills.',
   },
   {
     title: 'Interfaces generated on demand',
-    body: 'Intelligent UI and in-chat plugins mean part of the interface is assembled by a model at runtime, from components it is allowed to use.',
+    body: 'With Intelligent UI and plugins, parts of the screen are put together by AI on the fly, using components it is allowed to use.',
     forUs:
-      'We ship <em>component systems with strict contracts</em> (typed props, tokens, a11y) that both humans and models can compose.',
+      'We build <em>solid component libraries</em> (clear props, design tokens, accessibility) that both people and AI can use.',
   },
   {
     title: 'Agents as users',
-    body: 'Browsers like Atlas and computer-use agents navigate sites for people, reading the DOM and the accessibility tree.',
+    body: 'AI browsers like Atlas visit websites for people. They read the HTML structure and labels to find their way.',
     forUs:
-      'Semantic HTML, stable labels and predictable flows become “agent SEO”. Accessibility is now also about automation.',
+      'Semantic HTML, clear labels and simple flows help AI use our sites. Good accessibility now helps robots too.',
   },
   {
     title: 'Real-time, multimodal by default',
-    body: 'Voice, camera and screen sharing at conversational latency. Models see what you see and talk while they think.',
+    body: 'Talking with AI, showing it your camera or screen, getting answers instantly. It feels like a video call.',
     forUs:
-      'Streaming UIs, optimistic rendering and interruptible states (WebRTC, SSE, AbortController) are everyday front-end work.',
+      'Live-updating interfaces (streaming text, “stop” buttons, voice) become normal front-end work.',
   },
   {
     title: 'ChatGPT as an operating layer',
-    body: 'Plugins, commerce, ads, health, finance, office docs: ChatGPT is turning into a “super app” that sits between users and websites.',
+    body: 'Shopping, documents, health, finance: ChatGPT is becoming a “super app” where people do things without visiting websites.',
     forUs:
       'Some of our product surface will live inside ChatGPT as a plugin UI, not only on our own domain.',
   },
   {
     title: 'The open problems',
-    body: 'Hallucinations, prompt injection, privacy, cost and energy, and how much to trust a reasoning process we cannot fully inspect.',
+    body: 'AI still makes things up, can be tricked by hidden instructions, raises privacy questions, and uses a lot of energy.',
     forUs:
-      'Verify outputs, keep humans approving irreversible actions, and treat model output as <em>untrusted input</em>.',
+      'Always check its work, keep a human approving important actions, and treat AI output like <em>user input</em>: never trust it blindly.',
   },
 ];
 

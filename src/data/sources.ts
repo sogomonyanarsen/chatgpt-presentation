@@ -50,6 +50,96 @@ export const credits: Record<string, Credit> = {
     license: 'CC BY 4.0',
     url: 'https://commons.wikimedia.org/wiki/File:Person_holding_the_OpenAI_icon.jpg',
   },
+  books: {
+    title: 'Library stacks of books and bookshelf',
+    author: 'Shixart1985',
+    license: 'CC BY 2.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Library_stacks_of_books_and_bookshelf.jpg',
+  },
+  azure: {
+    title: 'Wenatchee, Washington, Azure datacenter (aerial)',
+    author: 'Tedder',
+    license: 'CC BY 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Wenatchee_washington_azure_datacenter_aerial_1.jpg',
+  },
+  thumbsUp: {
+    title: 'Thumbs up',
+    author: 'Grey Geezer',
+    license: 'CC BY-SA 3.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Thumbs_up_01.jpg',
+  },
+  thinker: {
+    title: 'The Thinker, Rodin',
+    author: 'AndrewHorne',
+    license: 'Public domain',
+    url: 'https://commons.wikimedia.org/wiki/File:The_Thinker,_Rodin.jpg',
+  },
+  serverAisle: {
+    title: 'BalticServers data center',
+    author: 'BalticServers.com',
+    license: 'CC BY-SA 3.0',
+    url: 'https://commons.wikimedia.org/wiki/File:BalticServers_data_center.jpg',
+  },
+  serverRacks: {
+    title: 'Virginia Tech data center',
+    author: 'Christopher Bowns',
+    license: 'CC BY-SA 2.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Virginia_Tech_-_data_center.jpg',
+  },
+  magnifier: {
+    title: 'Magnifying glass on the page of a book',
+    author: 'Karbyn',
+    license: 'CC BY-SA 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Magnifying_glass_on_the_page_of_a_book.jpg',
+  },
+  eye: {
+    title: 'Iris macro, eye close-up',
+    author: 'Matt Ming',
+    license: 'CC BY 2.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Iris_Macro,_Eye_close-up_(11622304153).jpg',
+  },
+  microphone: {
+    title: 'Studio microphone with pop shield',
+    author: 'Galak76',
+    license: 'CC BY-SA 3.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Studio_microphone_with_pop_shield.jpg',
+  },
+  cssCode: {
+    title: 'CSS code on a screen',
+    author: 'Sai Kiran Anagani',
+    license: 'CC0',
+    url: 'https://commons.wikimedia.org/wiki/File:CSS_code_on_a_screen_(Unsplash).jpg',
+  },
+  cardCatalog: {
+    title: 'Card catalog at the Indiana State Library',
+    author: 'TBurmeister (WMF)',
+    license: 'CC BY-SA 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Card_catalog_at_the_Indiana_State_Library_-_cabinet_exterior.jpg',
+  },
+  patchPanel: {
+    title: 'Ethernet patch panel',
+    author: 'Kbh3rd',
+    license: 'CC BY 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Ethernet_Patch_Panel_20171121_130458.jpg',
+  },
+  robotArm: {
+    title: 'Robotic arm polishing guitars at Martin Guitar Factory',
+    author: 'Henrysz',
+    license: 'CC BY 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Robotic_Arm_Polishing_Guitars_at_Martin_Guitar_Factory.jpg',
+  },
+  codeMonitor: {
+    title: 'Code on computer monitor',
+    author: 'Markus Spiske',
+    license: 'CC0',
+    url: 'https://commons.wikimedia.org/wiki/File:Code_on_computer_monitor_(Unsplash).jpg',
+  },
+  browser: {
+    title: 'Wikipedia homepage in Chromium',
+    author: 'Enock4seth',
+    license: 'CC BY-SA 4.0',
+    url: 'https://commons.wikimedia.org/wiki/File:Wikipedia_Homepage_Chromium_Web_browser_36.png',
+  },
 };
 
 export const sources: Source[] = [

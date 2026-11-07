@@ -5,7 +5,7 @@ import { each, esc, eyebrow } from './html';
 
 const STREAM_SNIPPET = `import OpenAI from 'openai';
 
-// Server-side only: never ship OPENAI_API_KEY to the browser.
+// Runs on our backend: never put the API key in frontend code.
 const client = new OpenAI();
 
 const stream = await client.responses.create({
@@ -36,14 +36,14 @@ const res = await client.responses.parse({
   text: { format: zodTextFormat(DesignTokens, 'design_tokens') },
 });
 
-res.output_parsed?.colors; // ← fully typed, schema-guaranteed JSON`;
+res.output_parsed?.colors; // ← typed JSON in exactly the shape we asked for`;
 
 export const playbookSection = (): string => `
 <section class="playbook" aria-label="Playbook for UI engineers">
   <article class="playbook__block" data-stop data-dive aria-labelledby="pb-prompt">
     ${eyebrow('4.1 · prompt anatomy', 'eyebrow')}
-    <h3 class="playbook__title" id="pb-prompt" data-scramble>A prompt is a spec</h3>
-    <p class="playbook__intro">The model only knows what is in its context. Good prompts read like a good ticket: context, task, constraints, format and an example.</p>
+    <h3 class="playbook__title" id="pb-prompt" data-fade-in>A prompt is a spec</h3>
+    <p class="playbook__intro">The AI only knows what you tell it. A good prompt reads like a good Jira ticket: who you are, what you need, the rules, the format you want, and an example.</p>
     <div class="anatomy" data-demo="anatomy">
       <ul class="anatomy__legend">
         ${each(
@@ -60,15 +60,15 @@ export const playbookSection = (): string => `
 
   <article class="playbook__block" data-stop data-dive aria-labelledby="pb-api">
     ${eyebrow('4.2 · the API in 15 lines', 'eyebrow')}
-    <h3 class="playbook__title" id="pb-api" data-scramble>Build it into our products</h3>
-    <p class="playbook__intro">The <strong>Responses API</strong> is what ChatGPT-style features are built on. Stream from your backend to the UI, and use <strong>Structured Outputs</strong> when you need JSON you can render without parsing guesswork.</p>
+    <h3 class="playbook__title" id="pb-api" data-fade-in>Build it into our products</h3>
+    <p class="playbook__intro">With the OpenAI API we can add ChatGPT-like features to our own products. Call it from the backend (never put the API key in the browser), stream the answer to the UI, and ask for <strong>JSON in a fixed shape</strong> when you want to render the result in components.</p>
     <div class="playbook__code-grid">
       <figure class="cap__code">
-        <figcaption class="cap__code-label">streaming (Node / BFF)</figcaption>
+        <figcaption class="cap__code-label">1 · stream an answer (backend)</figcaption>
         <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(STREAM_SNIPPET, 'ts')}</code></pre>
       </figure>
       <figure class="cap__code">
-        <figcaption class="cap__code-label">structured outputs + vision</figcaption>
+        <figcaption class="cap__code-label">2 · screenshot in, typed JSON out</figcaption>
         <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(STRUCTURED_SNIPPET, 'ts')}</code></pre>
       </figure>
     </div>
@@ -76,7 +76,7 @@ export const playbookSection = (): string => `
 
   <article class="playbook__block" data-stop data-dive aria-labelledby="pb-check">
     ${eyebrow('4.3 · start on monday', 'eyebrow')}
-    <h3 class="playbook__title" id="pb-check" data-scramble>Team checklist</h3>
+    <h3 class="playbook__title" id="pb-check" data-fade-in>Team checklist</h3>
     <ol class="checklist">${each(checklist, (item) => `<li class="checklist__item" data-reveal><span>${item}</span></li>`)}</ol>
   </article>
 </section>`;
@@ -100,7 +100,7 @@ export const outroSection = (): string => `
 <section class="outro" id="outro" data-chapter="06" data-chapter-title="Q &amp; A" data-stop aria-labelledby="outro-title">
   <div class="outro__stage">
     ${eyebrow('thank you', 'eyebrow outro__eyebrow')}
-    <h2 class="outro__title" id="outro-title" data-scramble>Questions?</h2>
+    <h2 class="outro__title" id="outro-title" data-fade-in>Questions?</h2>
     <p class="outro__lead">Bring a real task from your sprint and we will try it live.</p>
   </div>
   <div class="outro__refs">

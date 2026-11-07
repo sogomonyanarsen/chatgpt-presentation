@@ -30,7 +30,7 @@ export const cover = (chapter: Chapter): string => `
     <p class="cover__portal" aria-hidden="true">${chapter.number}</p>
     <div class="cover__content">
       ${eyebrow(`Chapter ${chapter.number}`, 'eyebrow cover__eyebrow')}
-      <h2 class="cover__title" id="${chapter.id}-title" data-scramble>${esc(chapter.title)}</h2>
+      <h2 class="cover__title" id="${chapter.id}-title">${esc(chapter.title)}</h2>
       <p class="cover__lead">${esc(chapter.lead)}</p>
     </div>
   </div>

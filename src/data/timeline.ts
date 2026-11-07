@@ -8,21 +8,20 @@ export const timeline: TimelineEntry[] = [
     title: 'Attention Is All You Need',
     tag: 'the “T” in GPT',
     theme: 'paper',
-    lead: 'Eight Google researchers publish the <strong>Transformer</strong>. It drops recurrence entirely and lets every word look at every other word at once, through <em>self-attention</em>.',
+    lead: 'Google researchers publish a new design for language AI: the <strong>Transformer</strong>. Instead of reading a sentence word by word, it looks at <em>all the words at once</em> and works out which ones relate to each other.',
     figures: [
       {
         src: 'images/transformer.webp',
         width: 1331,
         height: 1400,
-        alt: 'Diagram of the full Transformer architecture with encoder and decoder stacks',
+        alt: 'Diagram of the Transformer architecture',
         credit: 'transformer',
         kind: 'diagram',
       },
     ],
     hood: {
-      title: 'Why it won',
-      body: 'RNNs read text one token at a time, so they could not use GPU parallelism well. Attention is just matrix multiplication, so a whole sequence is processed in one pass. That made it practical to train on far more data.',
-      code: 'Attention(Q, K, V) = softmax(QKᵀ / √dₖ) · V',
+      title: 'Why it mattered',
+      body: 'Older models read text one word after another, like a queue. The Transformer reads everything in parallel, which suits graphics cards (GPUs) well. That made it possible to train on far more text than before.',
     },
   },
   {
@@ -30,17 +29,26 @@ export const timeline: TimelineEntry[] = [
     navLabel: '2018',
     date: 'June 2018',
     title: 'GPT-1',
-    tag: 'generative pre-training',
+    tag: 'guess the next word',
     theme: 'paper',
-    lead: 'OpenAI keeps only the <em>decoder</em> half of the Transformer and trains it to do one thing: <strong>predict the next token</strong>. It reads ~7,000 unpublished books and is then fine-tuned for each task.',
+    lead: 'OpenAI trains a Transformer on one simple game: <strong>guess the next word</strong>. It reads about 7,000 books and gets surprisingly good at language.',
+    figures: [
+      {
+        src: 'images/books.webp',
+        width: 1400,
+        height: 935,
+        alt: 'Library shelves full of books',
+        credit: 'books',
+        kind: 'photo',
+      },
+    ],
     stats: [
       { value: '117M', label: 'parameters' },
-      { value: '12', label: 'layers' },
-      { value: '512', label: 'token context' },
+      { value: '7,000', label: 'books read' },
     ],
     hood: {
       title: 'The recipe that stuck',
-      body: 'Step 1: <em>pre-train</em> on raw text with no labels. Step 2: <em>fine-tune</em> on a small labelled set. Every later GPT follows this two-step pattern, just much bigger.',
+      body: '1) <em>Pre-train</em>: let it read lots of text and guess the next word, over and over. 2) <em>Fine-tune</em>: give it a few examples of a specific task. Every GPT since follows this recipe, just at a much larger scale.',
     },
   },
   {
@@ -50,7 +58,7 @@ export const timeline: TimelineEntry[] = [
     title: 'GPT-2',
     tag: '“too dangerous”',
     theme: 'paper',
-    lead: 'At 10× the size, GPT-2 writes fluent paragraphs. OpenAI holds back the full model over misuse concerns and publishes it in stages until November 2019.',
+    lead: 'Ten times bigger, and now it writes whole believable paragraphs. OpenAI releases it in stages because it worries about fake news and spam.',
     figures: [
       {
         src: 'images/altman-2019.webp',
@@ -63,11 +71,11 @@ export const timeline: TimelineEntry[] = [
     ],
     stats: [
       { value: '1.5B', label: 'parameters' },
-      { value: '40 GB', label: 'WebText corpus' },
+      { value: '8M', label: 'web pages read' },
     ],
     hood: {
-      title: 'Zero-shot emerges',
-      body: 'Nobody trained GPT-2 to summarise, but adding <code>TL;DR:</code> after an article made it summarise anyway. Scale on its own started to produce new abilities.',
+      title: 'Bigger got smarter',
+      body: 'Nobody taught GPT-2 to summarise. Yet if you wrote <code>TL;DR:</code> after an article, it wrote a summary. Just making the model bigger unlocked new skills.',
     },
   },
   {
@@ -75,17 +83,26 @@ export const timeline: TimelineEntry[] = [
     navLabel: '2020',
     date: 'June 2020',
     title: 'GPT-3',
-    tag: 'prompt = program',
+    tag: 'learns from examples',
     theme: 'sage',
-    lead: 'A 100× jump to <strong>175 billion parameters</strong>, released through a paid API rather than as downloadable weights. The headline finding was <em>few-shot learning</em>: show it a couple of examples and it picks up the pattern.',
+    lead: '<strong>175 billion parameters</strong>, trained on a Microsoft supercomputer and offered through an API. The big surprise: show it two or three examples in your message and it continues the pattern.',
+    figures: [
+      {
+        src: 'images/azure-datacenter.webp',
+        width: 1200,
+        height: 900,
+        alt: 'Aerial view of a Microsoft Azure data centre',
+        credit: 'azure',
+        kind: 'photo',
+      },
+    ],
     stats: [
       { value: '175B', label: 'parameters' },
-      { value: '~300B', label: 'training tokens' },
-      { value: '2,048', label: 'token context' },
+      { value: '100×', label: 'bigger than GPT-2' },
     ],
     hood: {
-      title: 'In-context learning',
-      body: 'Nothing is retrained. The examples sit in the prompt, and attention picks up the pattern while it generates. That is the start of prompt engineering.',
+      title: 'The prompt becomes the program',
+      body: 'No retraining needed. You put examples in the prompt and the model copies the pattern. This is where “prompt engineering” started.',
       code: 'button → <button>\nlink   → <a>\ninput  → ',
     },
   },
@@ -94,13 +111,23 @@ export const timeline: TimelineEntry[] = [
     navLabel: 'Jan 22',
     date: 'January 2022',
     title: 'InstructGPT',
-    tag: 'RLHF',
+    tag: 'trained by 👍 / 👎',
     theme: 'sage',
-    lead: 'GPT-3 was clever but did not follow instructions well. By training on <strong>human preference rankings</strong>, a 1.3B InstructGPT model was preferred over the 175B GPT-3, even though it is 100× smaller.',
+    lead: 'GPT-3 knew a lot but often ignored what you asked. OpenAI had people <strong>rate its answers</strong> and trained it to give the ones people preferred. A model 100× smaller beat the big one.',
+    figures: [
+      {
+        src: 'images/thumbs-up.webp',
+        width: 993,
+        height: 1200,
+        alt: 'A hand giving a thumbs up',
+        credit: 'thumbsUp',
+        kind: 'photo',
+      },
+    ],
     hood: {
-      title: 'Reinforcement Learning from Human Feedback',
-      body: '① <em>SFT</em>: humans write ideal answers and the model imitates them. ② <em>Reward model</em>: humans rank several outputs and a second model learns to score them. ③ <em>PPO</em>: the LLM is optimised to maximise that score.',
-      code: 'pretrain → SFT → reward model → PPO',
+      title: 'Learning from human feedback (RLHF)',
+      body: '1) People write good example answers and the model copies them. 2) People rank several answers from best to worst. 3) The model practises until it reliably produces the answers people rank highest.',
+      code: 'read the internet → copy good answers → get rated → improve',
     },
   },
   {
@@ -110,7 +137,7 @@ export const timeline: TimelineEntry[] = [
     title: 'ChatGPT',
     tag: '1M users / 5 days',
     theme: 'green',
-    lead: 'A “low-key research preview” that put a GPT-3.5 model, tuned with RLHF for dialogue, behind a chat box. It became the fastest-growing consumer app on record at the time, with an estimated <strong>100M monthly users in about two months</strong>.',
+    lead: 'OpenAI puts that model behind a simple chat box, calling it a “research preview”. It becomes the fastest-growing app ever at the time: about <strong>100 million users in two months</strong>.',
     figures: [
       {
         src: 'images/chatgpt-screenshot.webp',
@@ -128,12 +155,13 @@ export const timeline: TimelineEntry[] = [
         credit: 'altman2022',
         kind: 'photo',
         caption: 'Sam Altman, Nov 2022',
+        polaroid: true,
       },
     ],
     hood: {
-      title: 'A chat is one long document',
-      body: 'The model never sees “messages”. The client turns them into one token sequence with special role delimiters. The model then predicts the assistant’s turn token by token, and the UI streams it to you.',
-      code: '<|im_start|>system\nYou are ChatGPT…<|im_end|>\n<|im_start|>user\nHi!<|im_end|>\n<|im_start|>assistant\n',
+      title: 'A chat is one long text',
+      body: 'The model doesn’t really see “messages”. The app joins the whole conversation into one long piece of text with role markers. The model then keeps guessing the next word for the assistant’s reply, and the app shows each word as it arrives.',
+      code: 'system: You are ChatGPT…\nuser: Hi!\nassistant: ▌',
     },
   },
   {
@@ -141,9 +169,9 @@ export const timeline: TimelineEntry[] = [
     navLabel: '2023',
     date: '14 March 2023',
     title: 'GPT-4',
-    tag: 'sees images',
+    tag: 'can see images',
     theme: 'green',
-    lead: 'Much stronger reasoning (around the <strong>top 10%</strong> on a simulated bar exam) and the first image input. Later that year: plugins and browsing (March), DALL·E 3 (October), and at DevDay (November) <strong>GPT-4 Turbo with 128K context</strong> and custom <strong>GPTs</strong>.',
+    lead: 'Much smarter (it scores in the <strong>top 10%</strong> on a practice bar exam) and it can read images. Later in 2023 came plugins, web browsing, DALL·E 3 images and custom <strong>GPTs</strong>.',
     figures: [
       {
         src: 'images/h100.webp',
@@ -161,11 +189,12 @@ export const timeline: TimelineEntry[] = [
         credit: 'tau2023',
         kind: 'photo',
         caption: 'Sutskever & Altman, 2023 world tour',
+        polaroid: true,
       },
     ],
     hood: {
-      title: 'Scale needs hardware',
-      body: 'Frontier models are trained across tens of thousands of GPUs such as the H100. The weights, gradients and data are split across machines with tensor, pipeline and data parallelism.',
+      title: 'It runs on graphics cards',
+      body: 'Models like this are trained on tens of thousands of GPUs like the NVIDIA H100 above, working together for months. That’s why AI companies are building such huge data centres.',
     },
   },
   {
@@ -173,26 +202,26 @@ export const timeline: TimelineEntry[] = [
     navLabel: 'May 24',
     date: '13 May 2024',
     title: 'GPT-4o',
-    tag: 'omni',
+    tag: 'o = omni',
     theme: 'ink',
-    lead: 'One network for <strong>text, vision and audio</strong>. Voice replies arrive in about <strong>320 ms on average</strong>, close to human turn-taking, and GPT-4-class intelligence becomes available to free users.',
+    lead: 'One model that handles <strong>text, images and voice</strong> together. Voice replies come back in about a third of a second, about as fast as a person answering. Free users get GPT-4-level AI too.',
     figures: [
       {
         src: 'images/whisper.webp',
         width: 1400,
         height: 1061,
-        alt: 'Architecture diagram of OpenAI Whisper, the speech recogniser used in the old voice pipeline',
+        alt: 'Diagram of OpenAI Whisper, the speech recogniser used in the old voice pipeline',
         credit: 'whisper',
         kind: 'diagram',
       },
     ],
     stats: [
-      { value: '5.4 s', label: 'old voice pipeline (GPT-4)' },
-      { value: '0.32 s', label: 'GPT-4o average' },
+      { value: '5.4 s', label: 'old voice mode' },
+      { value: '0.32 s', label: 'GPT-4o' },
     ],
     hood: {
-      title: 'From pipeline to end-to-end',
-      body: 'The old Voice Mode chained three models: Whisper (speech→text) → GPT-4 → TTS. Tone, laughter and interruptions were lost between steps. GPT-4o takes audio tokens directly and produces audio tokens directly.',
+      title: 'No more relay race',
+      body: 'Old voice mode passed your voice through three separate models: speech → text → answer → speech. Tone and emotion got lost along the way. GPT-4o hears and speaks directly, so it can laugh, whisper and be interrupted.',
     },
   },
   {
@@ -200,13 +229,22 @@ export const timeline: TimelineEntry[] = [
     navLabel: 'Sep 24',
     date: '12 September 2024',
     title: 'o1: models that think',
-    tag: 'test-time compute',
+    tag: 'thinks before it answers',
     theme: 'ink',
-    lead: 'The “o-series” (o1 → o3 → o4-mini) spends tokens <strong>reasoning before answering</strong>. Hard maths, science and coding improve a lot. <em>Deep research</em> (Feb 2025) builds on this for multi-step browsing.',
+    lead: 'A new kind of model that <strong>thinks step by step before answering</strong>, a bit like doing rough work on paper first. Much better at maths, science and tricky code.',
+    figures: [
+      {
+        src: 'images/thinker.webp',
+        width: 1050,
+        height: 1400,
+        alt: 'The Thinker, bronze sculpture by Auguste Rodin',
+        credit: 'thinker',
+        kind: 'photo',
+      },
+    ],
     hood: {
-      title: 'A new scaling axis',
-      body: 'Reinforcement learning rewards chains of thought that reach correct answers. Accuracy then improves with <em>more thinking time at inference</em>, not only with bigger training runs. The reasoning tokens are hidden from you but still count toward usage.',
-      code: 'quality ∝ log(train compute) + log(test-time compute)',
+      title: 'Thinking time = better answers',
+      body: 'Until then, the main way to get smarter AI was a bigger model. o1 showed a second way: <em>let it think longer</em>. You don’t see that thinking, but it costs time and money, which is why “Thinking” mode is slower.',
     },
   },
   {
@@ -214,9 +252,9 @@ export const timeline: TimelineEntry[] = [
     navLabel: '2025',
     date: '7 August 2025',
     title: 'GPT-5',
-    tag: 'one model, routed',
+    tag: 'picks the right brain',
     theme: 'ink',
-    lead: 'One system replaces the model picker: a <strong>real-time router</strong> sends easy prompts to a fast model and hard ones to a thinking model. 2025 also brought ChatGPT agent (July), Sora 2 (Sept), the Apps SDK (Oct), the <strong>Atlas</strong> browser (Oct), then GPT-5.1 and 5.2.',
+    lead: 'No more choosing between models: GPT-5 <strong>decides on its own</strong> whether to answer fast or think hard. 2025 also brought the ChatGPT agent, Sora 2 video, apps inside ChatGPT and the <strong>Atlas</strong> browser.',
     figures: [
       {
         src: 'images/openai-sticker.webp',
@@ -230,7 +268,7 @@ export const timeline: TimelineEntry[] = [
     stats: [{ value: '800M', label: 'weekly users (Oct 2025)' }],
     hood: {
       title: 'The router',
-      body: 'A classifier looks at conversation type, complexity, tool needs and explicit intent (“think hard about this”) to choose a model per message. It is trained on signals such as which model users switch to and which answers they prefer.',
+      body: 'A small “dispatcher” model reads each message first. Simple question? It goes to the fast model. Hard problem, or you said “think hard”? It goes to the thinking model.',
     },
   },
   {
@@ -241,14 +279,23 @@ export const timeline: TimelineEntry[] = [
     tag: '900M weekly users',
     theme: 'void',
     mock: 'agent',
-    lead: 'GPT-5.3-Codex (Feb), GPT-5.4 (Mar) and <strong>GPT-5.5</strong> (Apr), with a 1M-token API context. On 9 July, <strong>ChatGPT Work</strong> launched: an agent that plans, uses your tools for hours and returns finished docs, slides, sheets and web apps. Apps were renamed <strong>plugins</strong>, and Codex merged into the ChatGPT desktop app.',
-    stats: [
-      { value: '1M', label: 'token context (GPT-5.5 API)' },
-      { value: '900M', label: 'weekly users (Feb 2026)' },
+    lead: 'GPT-5.5 can read huge documents at once. In July, <strong>ChatGPT Work</strong> arrives: you describe the result you want and it works for hours using your tools, then hands back finished docs, slides, sheets or web apps.',
+    figures: [
+      {
+        src: 'images/server-aisle.webp',
+        width: 1400,
+        height: 930,
+        alt: 'A long aisle of server racks in a data centre',
+        credit: 'serverAisle',
+        kind: 'photo',
+        caption: 'More agents, more data centres',
+        polaroid: true,
+      },
     ],
+    stats: [{ value: '900M', label: 'weekly users (Feb 2026)' }],
     hood: {
-      title: 'Plan → act → verify',
-      body: 'Work runs an agent loop. It drafts a plan you approve, then repeatedly picks a tool (browser, terminal, plugin, computer use), observes the result and decides the next step. Risky actions go through an “auto-review” model and need your sign-off.',
+      title: 'Plan → do → check',
+      body: 'An agent works in a loop. It makes a plan you approve, picks a tool (browser, code, an app), looks at the result, and decides the next step. Anything risky waits for your “yes”.',
     },
   },
   {
@@ -259,10 +306,10 @@ export const timeline: TimelineEntry[] = [
     tag: 'answers become interfaces',
     theme: 'void',
     mock: 'genui',
-    lead: 'The GPT-6 family arrives in September. On <strong>7 October</strong> it reaches every ChatGPT user with <strong>Intelligent UI</strong>: answers can include interactive charts, calculators, maps and buttons, and the model can start answering before it has finished thinking.',
+    lead: 'GPT-6 arrives. From <strong>7 October</strong>, answers can contain real interactive pieces: charts, calculators, maps and buttons, built on the fly for your question.',
     hood: {
-      title: 'Generative UI',
-      body: 'The answer is no longer only Markdown. The model picks and fills interactive components that the client renders inside the reply. For front-end teams, the job shifts toward building <em>components and contracts that AI can compose</em>.',
+      title: 'Why UI developers should care',
+      body: 'The AI no longer just writes text. It picks UI components and fills them with data. Someone has to build those components well, and that’s us.',
     },
   },
 ];

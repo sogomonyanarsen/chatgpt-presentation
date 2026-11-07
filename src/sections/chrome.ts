@@ -147,6 +147,7 @@ const isTyping = (el: EventTarget | null): boolean =>
 export const initKeyboard = (menu: { toggle: (open?: boolean) => void }): void => {
   window.addEventListener('keydown', (event) => {
     if (isTyping(event.target) || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (document.body.classList.contains('is-lightbox-open')) return; // lightbox owns the keys
 
     if (event.key === 'm' || event.key === 'M') {
       menu.toggle();

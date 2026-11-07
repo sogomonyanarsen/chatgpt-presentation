@@ -11,7 +11,8 @@ import { initAnatomy } from './demos/anatomy';
 import { initAttention } from './demos/attention';
 import { initSampling } from './demos/sampling';
 import { initStreaming } from './demos/streaming';
-import { initScramble } from './effects/scramble';
+import { initFadeIn } from './effects/fade-in';
+import { initLightbox } from './effects/lightbox';
 import { Starfield } from './effects/starfield';
 import {
   initCopyButtons,
@@ -83,7 +84,8 @@ const boot = async (): Promise<void> => {
     return hs;
   });
   initDive();
-  initScramble();
+  initFadeIn();
+  initLightbox();
 
   // Live demos boot lazily as they approach the viewport.
   for (const root of qsa('[data-demo]')) {
