@@ -19,6 +19,11 @@ export interface Figure {
   /** Diagrams are shown untinted; photos get the duotone treatment. */
   kind: 'photo' | 'diagram' | 'screenshot';
   caption?: string;
+  /**
+   * Focal point as a CSS `object-position` (e.g. '60% 22%'), so cropped frames keep the
+   * subject (a face, a hand, a logo) in view. Defaults to the centre.
+   */
+  focus?: string;
   /** Render as the small offset “polaroid” instead of the main image. */
   polaroid?: boolean;
 }

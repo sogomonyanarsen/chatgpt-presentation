@@ -37,6 +37,7 @@ export const capabilities: Capability[] = [
     glyph: 'globe',
     image: {
       src: 'images/magnifier.webp',
+      focus: '45% 50%',
       width: 640,
       height: 480,
       alt: 'Magnifying glass over the page of a book',
@@ -65,6 +66,7 @@ export const capabilities: Capability[] = [
     glyph: 'eye',
     image: {
       src: 'images/eye.webp',
+      focus: '50% 45%',
       width: 1400,
       height: 758,
       alt: 'Close-up of a human eye',
@@ -92,6 +94,7 @@ export const capabilities: Capability[] = [
     glyph: 'wave',
     image: {
       src: 'images/microphone.webp',
+      focus: '40% 55%',
       width: 990,
       height: 1344,
       alt: 'Studio microphone with a pop shield',
@@ -156,6 +159,7 @@ export const capabilities: Capability[] = [
     glyph: 'memory',
     image: {
       src: 'images/card-catalog.webp',
+      focus: '50% 40%',
       width: 1050,
       height: 1400,
       alt: 'Wooden library card catalogue drawers',
@@ -184,6 +188,7 @@ export const capabilities: Capability[] = [
     glyph: 'plug',
     image: {
       src: 'images/patch-panel.webp',
+      focus: '50% 45%',
       width: 656,
       height: 1200,
       alt: 'Network cables plugged into a patch panel',
@@ -224,6 +229,7 @@ app.ontoolresult = (result) => render(result.structuredContent);`,
     glyph: 'robot',
     image: {
       src: 'images/robot-arm.webp',
+      focus: '78% 50%',
       width: 933,
       height: 1400,
       alt: 'An industrial robotic arm at work in a factory',

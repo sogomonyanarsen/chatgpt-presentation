@@ -223,6 +223,10 @@
       mix-blend-mode: screen;
       opacity: 0.55;
     }
+
+    &:has(img:not([data-loaded]))::after {
+      opacity: 0;
+    }
   }
 
   &__figure--diagram &__figure-frame,

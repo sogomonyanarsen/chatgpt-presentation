@@ -15,5 +15,5 @@ export const creditLine = (fig: Figure): string => {
  */
 export const zoomableImage = (fig: Figure): string => `
   <button class="zoomable" type="button" data-zoom data-caption="${esc(fig.caption ?? fig.alt)}" data-credit="${esc(creditLine(fig))}" aria-label="Enlarge image: ${esc(fig.alt)}">
-    <img src="${fig.src}" width="${fig.width}" height="${fig.height}" alt="${esc(fig.alt)}" loading="lazy" decoding="async" />
+    <img src="${fig.src}" width="${fig.width}" height="${fig.height}" alt="${esc(fig.alt)}"${fig.focus ? ` style="object-position: ${esc(fig.focus)}"` : ''} loading="lazy" decoding="async" />
   </button>`;

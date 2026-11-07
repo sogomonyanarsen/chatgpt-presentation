@@ -68,4 +68,4 @@ Pushing to `main` deploys to GitHub Pages through `.github/workflows/deploy.yml`
 
 Facts are current as of **5 November 2026**, and every claim links to a source in the Sources section on the page (`src/data/sources.ts`). The sampling and attention demos use illustrative values and say so on the page. The tokenizer is the real vocabulary. The two 2026 UI mock-ups are labelled as illustrations.
 
-Click any photo or diagram to zoom it to the centre of the screen (Esc or click to close). All photos and diagrams are from Wikimedia Commons under the licenses listed in `src/data/sources.ts` and shown on the page.
+Click any photo or diagram to open it full size (Esc or click to close). All photos and diagrams are from Wikimedia Commons under the licenses listed in `src/data/sources.ts` and shown on the page.

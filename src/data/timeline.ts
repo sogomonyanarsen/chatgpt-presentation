@@ -35,6 +35,7 @@ export const timeline: TimelineEntry[] = [
     figures: [
       {
         src: 'images/books.webp',
+        focus: '40% 45%',
         width: 1400,
         height: 935,
         alt: 'Library shelves full of books',
@@ -62,6 +63,7 @@ export const timeline: TimelineEntry[] = [
     figures: [
       {
         src: 'images/altman-2019.webp',
+        focus: '55% 38%',
         width: 863,
         height: 900,
         alt: 'Sam Altman speaking on stage at TechCrunch Disrupt 2019',
@@ -89,6 +91,7 @@ export const timeline: TimelineEntry[] = [
     figures: [
       {
         src: 'images/azure-datacenter.webp',
+        focus: '55% 35%',
         width: 1200,
         height: 900,
         alt: 'Aerial view of a Microsoft Azure data centre',
@@ -117,6 +120,7 @@ export const timeline: TimelineEntry[] = [
     figures: [
       {
         src: 'images/thumbs-up.webp',
+        focus: '55% 45%',
         width: 993,
         height: 1200,
         alt: 'A hand giving a thumbs up',
@@ -149,6 +153,7 @@ export const timeline: TimelineEntry[] = [
       },
       {
         src: 'images/altman-2022.webp',
+        focus: '55% 32%',
         width: 931,
         height: 1400,
         alt: 'Sam Altman in November 2022',
@@ -175,6 +180,7 @@ export const timeline: TimelineEntry[] = [
     figures: [
       {
         src: 'images/h100.webp',
+        focus: '70% 50%',
         width: 1400,
         height: 788,
         alt: 'NVIDIA H100 data-centre GPU',
@@ -183,6 +189,7 @@ export const timeline: TimelineEntry[] = [
       },
       {
         src: 'images/sutskever-altman-2023.webp',
+        focus: '50% 65%',
         width: 768,
         height: 1024,
         alt: 'Ilya Sutskever and Sam Altman on stage at Tel Aviv University in 2023',
@@ -235,6 +242,7 @@ export const timeline: TimelineEntry[] = [
     figures: [
       {
         src: 'images/thinker.webp',
+        focus: '60% 22%',
         width: 1050,
         height: 1400,
         alt: 'The Thinker, bronze sculpture by Auguste Rodin',
@@ -258,6 +266,7 @@ export const timeline: TimelineEntry[] = [
     figures: [
       {
         src: 'images/openai-sticker.webp',
+        focus: '40% 55%',
         width: 1050,
         height: 1400,
         alt: 'A hand holding an OpenAI logo sticker',
