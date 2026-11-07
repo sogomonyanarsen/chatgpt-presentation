@@ -12,7 +12,7 @@ const flow = (nodes: string[]): string => `
 const codeBlock = (code: NonNullable<Capability['code']>): string => `
   <figure class="cap__code">
     <figcaption class="cap__code-label">${esc(code.label)}</figcaption>
-    <pre class="code-block" data-lang="${esc(code.lang)}"><code>${highlight(code.source, code.lang)}</code></pre>
+    <pre class="code-block" data-lenis-prevent data-lang="${esc(code.lang)}"><code>${highlight(code.source, code.lang)}</code></pre>
   </figure>`;
 
 const tryPrompt = (prompt: string): string => `

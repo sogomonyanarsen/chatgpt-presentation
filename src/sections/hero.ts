@@ -33,6 +33,7 @@ export const initHero = async (starfield: Starfield): Promise<void> => {
       end: 'bottom bottom',
       scrub: true,
       onUpdate: (self: ScrollTrigger) => {
+        title.setVisible(self.progress < 0.7);
         title.setProgress(self.progress / 0.7);
         starfield.setBoost(Math.sin(Math.min(1, self.progress / 0.7) * Math.PI) * 0.6);
       },

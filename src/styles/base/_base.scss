@@ -107,8 +107,7 @@ main {
     to bottom,
     rgb(255 255 255 / 3%) 0 1px,
     transparent 1px 3px
-  );
-  mix-blend-mode: overlay;
+  ); // plain alpha: a full-screen blend mode would re-composite the whole page every frame
 }
 
 .visually-hidden {

@@ -59,6 +59,22 @@
   }
 }
 
+// ── Heading scramble overlay (see effects/scramble.ts) ─────────────────────
+[data-scramble] {
+  position: relative;
+}
+
+.is-scrambling {
+  -webkit-text-fill-color: transparent; // real text keeps the layout box; overlay paints glyphs
+}
+
+.scramble {
+  position: absolute;
+  inset: 0;
+  -webkit-text-fill-color: currentcolor;
+  pointer-events: none;
+}
+
 // ── Pixel glyph icons ────────────────────────────────────────────────────────
 .glyph {
   width: 48px;
@@ -189,5 +205,4 @@
   background-color: var(--c-surface);
   border: 1px solid var(--c-line);
   border-radius: 2px;
-  backdrop-filter: blur(8px);
 }

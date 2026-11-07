@@ -4,15 +4,23 @@
 .hscroll {
   position: relative;
 
+  // `clip`, not `hidden`: a hidden box is still a scroll container, and focusing an off-screen
+  // link would scroll it sideways and desync the track from the pin.
   &.is-horizontal {
     height: 100svh;
-    overflow: hidden;
+    overflow: clip;
+  }
+
+  // Every level gets an explicit height so panels are exactly one viewport tall and centre in it.
+  &.is-horizontal &__viewport,
+  &.is-horizontal &__track,
+  &.is-horizontal [data-panel] {
+    height: 100%;
   }
 
   &.is-horizontal &__track {
     display: flex;
     width: max-content;
-    height: 100%;
   }
 }
 
@@ -35,6 +43,12 @@
   position: relative;
   color: var(--ink);
   background: var(--bg);
+
+  &--paper,
+  &--sage,
+  &--green {
+    --focus: var(--ink);
+  }
 
   &--paper {
     --bg: var(--c-paper);
@@ -61,7 +75,7 @@
   &--green {
     --bg: var(--c-heritage);
     --ink: #03140f;
-    --muted: #0b3a2c;
+    --muted: #022a1f;
     --accent: var(--c-paper);
     --accent-ink: #03140f;
     --card: rgb(0 0 0 / 10%);
@@ -130,6 +144,11 @@
     // No figure above: sit under the title instead of overlapping an image edge.
     .panel__title + & {
       margin-top: 0.2em;
+    }
+
+    // Below a photo/diagram: never cover its licence credit.
+    .panel__figure--main + & {
+      margin-top: 0.5em;
     }
   }
 
@@ -319,11 +338,36 @@
   z-index: 5;
   display: none;
   height: 72px;
-  color: var(--chrome-ink);
-  transition: color 0.4s;
+  color: var(--nav-ink, var(--c-ink));
+  background: linear-gradient(to bottom, transparent, var(--nav-bg, transparent) 45%);
+  transition: color 0.3s;
 
   .is-horizontal & {
     display: block;
+  }
+
+  // Themed by the active panel (hscroll.ts sets data-theme) so links always contrast.
+  &[data-theme='paper'] {
+    --nav-bg: var(--c-paper);
+    --nav-ink: #17140f;
+  }
+
+  &[data-theme='sage'] {
+    --nav-bg: var(--c-sage);
+    --nav-ink: #141a10;
+  }
+
+  &[data-theme='green'] {
+    --nav-bg: var(--c-heritage);
+    --nav-ink: #03140f;
+  }
+
+  &[data-theme='ink'] {
+    --nav-bg: #0e1013;
+  }
+
+  &[data-theme='void'] {
+    --nav-bg: var(--c-void);
   }
 }
 
@@ -354,7 +398,7 @@
   font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
   text-decoration: none;
-  opacity: 0.55;
+  opacity: 0.72;
   transition: opacity 0.3s;
 
   &:hover,
@@ -528,5 +572,74 @@
     padding: 0 14px 10px;
     font-size: 0.625rem;
     color: var(--c-muted);
+  }
+}
+
+// ── Short desktop screens (≤ 820px tall): compact panels so they fit one viewport ──
+@media (width >= 900px) and (height <= 820px) {
+  .is-horizontal .panel {
+    &__inner {
+      padding-top: var(--header-h);
+      padding-bottom: 84px;
+    }
+
+    &__title {
+      font-size: clamp(2rem, 8svh, 4.5rem);
+    }
+
+    &__date {
+      font-size: 1rem;
+    }
+
+    &__lead {
+      margin-top: 0.7em;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    &__stats {
+      margin-top: 0.8em;
+    }
+
+    &__stat-value {
+      font-size: clamp(1.5rem, 5svh, 2.4rem);
+    }
+
+    &__figure--photo .panel__figure-frame {
+      height: clamp(130px, 22svh, 240px);
+    }
+
+    &__figure--diagram img,
+    &__figure--screenshot img {
+      max-height: clamp(120px, 22svh, 240px);
+    }
+
+    &__figure--polaroid {
+      width: clamp(130px, 11vw, 180px);
+      margin-top: 24px; // clear the fixed header
+    }
+
+    &__hood {
+      padding: 20px;
+    }
+  }
+
+  .is-horizontal .mock {
+    margin-bottom: 0.9em;
+
+    &__chart {
+      height: 84px;
+    }
+
+    &__plan {
+      gap: 4px;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+    }
+
+    &__chips,
+    &__msg {
+      padding-block: 8px 0;
+    }
   }
 }

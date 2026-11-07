@@ -55,6 +55,10 @@ const watchLayout = (): void => {
 const boot = async (): Promise<void> => {
   // We restore position ourselves once pin spacing exists; native restoration would land mid-animation.
   history.scrollRestoration = 'manual';
+  // Take over deep links: strip the hash so the browser stops re-anchoring to the fragment
+  // while pins change the layout; we scroll there ourselves (and restore the hash) below.
+  const deepLink = location.hash.slice(1);
+  if (deepLink) history.replaceState(null, '', location.pathname + location.search);
   document.documentElement.classList.add('js');
   if (prefersReducedMotion()) document.documentElement.classList.add('reduced-motion');
 
@@ -65,12 +69,16 @@ const boot = async (): Promise<void> => {
     starfield.setVelocity(v);
   });
 
-  // Section choreography. Modules create triggers by type, not in page order, so we
-  // ScrollTrigger.sort() below: pins must refresh top-to-bottom for correct spacing.
+  // Section choreography. Pinned sections declare `refreshPriority` so they are measured first
+  // regardless of creation order (see hscroll.ts).
   const heroReady = initHero(starfield);
   initCovers(starfield);
   const scrollers = qsa('[data-hscroll]').map((section) => {
-    const hs = createHScroll(section);
+    const hs = createHScroll(section, {
+      onBackdropHidden: (hidden) => {
+        starfield.setPaused(hidden);
+      },
+    });
     if (section.dataset.hscroll === 'timeline') initTimelineNav(hs);
     return hs;
   });
@@ -93,26 +101,25 @@ const boot = async (): Promise<void> => {
 
   await heroReady;
   await document.fonts.ready;
-  ScrollTrigger.sort();
   ScrollTrigger.refresh();
   watchLayout();
 
-  // Deep links (e.g. …/#capabilities) land correctly once pin spacing exists. Wait for `load`:
-  // the browser performs its own fragment scroll then, which would otherwise override ours.
-  if (document.readyState !== 'complete') {
-    await new Promise((resolve) => {
-      window.addEventListener('load', resolve, { once: true });
-    });
+  // Deep links (e.g. …/#capabilities) land correctly once pin spacing exists.
+  const goTo = (id: string, immediate: boolean): void => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    const owner = scrollers.find((hs) => hs.panels.includes(target));
+    if (owner) scrollToY(owner.scrollYFor(target), immediate);
+    else scrollToSection(target, immediate);
+  };
+  if (deepLink) {
+    goTo(deepLink, true);
+    history.replaceState(null, '', `#${deepLink}`);
   }
-  await new Promise((resolve) => {
-    setTimeout(resolve, 0);
-  }); // after the browser's own fragment scroll
-  const hashTarget = location.hash ? document.getElementById(location.hash.slice(1)) : null;
-  if (hashTarget) {
-    const owner = scrollers.find((hs) => hs.panels.includes(hashTarget));
-    if (owner) scrollToY(owner.scrollYFor(hashTarget), true);
-    else scrollToSection(hashTarget, true);
-  }
+  // Hash edits on the same page (typed in the URL bar, or back/forward).
+  window.addEventListener('hashchange', () => {
+    goTo(location.hash.slice(1), false);
+  });
 };
 
 void boot();

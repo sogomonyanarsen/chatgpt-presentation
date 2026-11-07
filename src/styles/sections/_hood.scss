@@ -16,12 +16,13 @@
 // ── Demo slide layout ────────────────────────────────────────────────────────
 .demo {
   display: grid;
+  grid-template-areas: 'head' 'stage' 'notes';
   gap: 24px 48px;
   align-content: center;
   max-width: var(--max-w);
   min-height: 100svh;
   margin-inline: auto;
-  padding-block: 12vh;
+  padding-block: 8vh;
 
   @include up(md) {
     // Row 2 is `1fr` so the tall stage grows the notes row, not the heading row.

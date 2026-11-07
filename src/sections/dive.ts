@@ -5,7 +5,9 @@ import { registerStops } from '../core/stops';
 
 /**
  * Depth transitions for content slides (`[data-dive]`): each slide rises out of the distance
- * (small, blurred, transparent) and, on desktop, recedes past the camera as you leave.
+ * (small, tilted, transparent) and, on desktop, recedes past the camera as you leave.
+ * No CSS `filter` here on purpose: animating blur on full-viewport slides is the most
+ * expensive thing a scroll site can do.
  * `[data-reveal]` items fade up in a stagger, grouped by their parent element.
  */
 export const initDive = (): void => {
@@ -18,25 +20,42 @@ export const initDive = (): void => {
 
   mm.add(DESKTOP_QUERY, () => {
     for (const slide of slides) {
+      // Origin at the top edge: `top`-based trigger positions stay exact while the slide is scaled.
+      gsap.set(slide, { transformOrigin: '50% 0%', transformPerspective: 1200 });
+
       gsap.fromTo(
         slide,
-        { opacity: 0, scale: 0.86, filter: 'blur(10px)', transformPerspective: 1200, rotateX: 6 },
+        { opacity: 0, scale: 0.9, y: 40, rotateX: 6 },
         {
           opacity: 1,
           scale: 1,
-          filter: 'blur(0px)',
+          y: 0,
           rotateX: 0,
           ease: 'power2.out',
           scrollTrigger: { trigger: slide, start: 'top 95%', end: 'top 45%', scrub: true },
         },
       );
-      gsap.to(slide, {
-        opacity: 0.15,
-        scale: 1.06,
-        filter: 'blur(4px)',
-        ease: 'power1.in',
-        scrollTrigger: { trigger: slide, start: 'bottom 40%', end: 'bottom top', scrub: true },
-      });
+
+      // Explicit from-values + no immediate render: the exit must never inherit the entry's
+      // initial (invisible) state, which previously made slides snap from opacity 1 to 0.
+      // The start uses the layout height (offsetHeight ignores transforms) instead of `bottom`.
+      gsap.fromTo(
+        slide,
+        { opacity: 1, scale: 1 },
+        {
+          opacity: 0.15,
+          scale: 1.04,
+          ease: 'power1.in',
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: slide,
+            start: () => `top+=${slide.offsetHeight} 40%`,
+            end: () => `top+=${slide.offsetHeight} top`,
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
     }
   });
 

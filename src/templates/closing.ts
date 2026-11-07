@@ -65,11 +65,11 @@ export const playbookSection = (): string => `
     <div class="playbook__code-grid">
       <figure class="cap__code">
         <figcaption class="cap__code-label">streaming (Node / BFF)</figcaption>
-        <pre class="code-block" data-lang="ts"><code>${highlight(STREAM_SNIPPET, 'ts')}</code></pre>
+        <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(STREAM_SNIPPET, 'ts')}</code></pre>
       </figure>
       <figure class="cap__code">
         <figcaption class="cap__code-label">structured outputs + vision</figcaption>
-        <pre class="code-block" data-lang="ts"><code>${highlight(STRUCTURED_SNIPPET, 'ts')}</code></pre>
+        <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(STRUCTURED_SNIPPET, 'ts')}</code></pre>
       </figure>
     </div>
   </article>

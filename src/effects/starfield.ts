@@ -26,6 +26,8 @@ export class Starfield {
   private boost = 0;
   private rafId = 0;
   private running = false;
+  private paused = false;
+  private resizeTimer = 0;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -35,7 +37,7 @@ export class Starfield {
     if (!ctx) throw new Error('2D canvas unsupported');
     this.ctx = ctx;
     this.resize();
-    window.addEventListener('resize', this.resize, { passive: true });
+    window.addEventListener('resize', this.onResize, { passive: true });
     document.addEventListener('visibilitychange', this.onVisibility);
     if (animated) this.start();
     else this.drawFrame();
@@ -51,7 +53,24 @@ export class Starfield {
     this.boost = clamp(amount, 0, 1);
   }
 
+  /**
+   * Stop drawing while something opaque covers the whole canvas (e.g. a timeline panel).
+   * Saves a full-screen canvas redraw every frame for thousands of pixels of scroll.
+   */
+  setPaused(paused: boolean): void {
+    if (paused === this.paused || !this.animated) return;
+    this.paused = paused;
+    if (paused) this.stop();
+    else if (!document.hidden) this.start();
+  }
+
+  private readonly onResize = (): void => {
+    window.clearTimeout(this.resizeTimer);
+    this.resizeTimer = window.setTimeout(this.resize, 150);
+  };
+
   private readonly resize = (): void => {
+    const previousWidth = this.width;
     this.dpr = Math.min(window.devicePixelRatio || 1, 2);
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -59,9 +78,12 @@ export class Starfield {
     this.canvas.height = Math.round(this.height * this.dpr);
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
 
-    const count = Math.round(clamp((this.width * this.height) / 2600, 180, 700));
-    this.stars = Array.from({ length: count }, () => this.spawn(Math.random() * DEPTH));
-    if (!this.animated) this.drawFrame();
+    // Mobile URL bars change only the height: keep the existing stars so nothing “pops”.
+    if (this.width !== previousWidth || this.stars.length === 0) {
+      const count = Math.round(clamp((this.width * this.height) / 2600, 180, 700));
+      this.stars = Array.from({ length: count }, () => this.spawn(Math.random() * DEPTH));
+    }
+    if (!this.running) this.drawFrame();
   };
 
   private spawn(z: number): Star {
@@ -76,7 +98,7 @@ export class Starfield {
   private readonly onVisibility = (): void => {
     if (!this.animated) return;
     if (document.hidden) this.stop();
-    else this.start();
+    else if (!this.paused) this.start();
   };
 
   private start(): void {

@@ -1,32 +1,60 @@
-const GLYPHS = '01<>/{}[]#*+=_-%$@&';
+import { prefersReducedMotion } from '../core/motion';
+
+/** Uppercase pool with similar advance widths in the display face, so lines don't re-wrap. */
+const GLYPHS = 'ABCDEFGHKMNOPRSTUVXYZ0123456789#%&@';
+const DURATION_MS = 900;
+const SWAP_EVERY_MS = 45;
+
+const randomGlyph = (): string => GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
+
+/** Keep spaces and punctuation stable: only letters/digits scramble, so word lengths never change. */
+const isScramblable = (ch: string): boolean => /[\p{L}\p{N}]/u.test(ch);
 
 /**
- * Decodes a heading from random glyphs into its real text — a small “digital” flourish.
- * Accessibility: the real text is exposed via aria-label for the whole animation.
+ * Decodes a heading from random glyphs into its real text, left to right.
+ *
+ * The real text never changes: it stays in place (transparent) and keeps the layout box fixed,
+ * while an `aria-hidden` overlay positioned over it shows the scrambled glyphs. So there is
+ * no reflow per frame, no final “snap”, and the accessible name is untouched.
  */
-export const scramble = (el: HTMLElement, duration = 700): void => {
-  const finalText = el.dataset.text ?? el.textContent;
-  el.dataset.text = finalText;
-  el.setAttribute('aria-label', finalText);
+export const scramble = (el: HTMLElement): void => {
+  const text = el.textContent;
+  const overlay = document.createElement('span');
+  overlay.className = 'scramble';
+  overlay.setAttribute('aria-hidden', 'true');
+  el.classList.add('is-scrambling');
+  el.append(overlay);
 
-  const start = performance.now();
+  // Grapheme-safe split (emoji, combining marks) — as the lint rule requires.
+  const chars = Array.from(new Intl.Segmenter().segment(text), (g) => g.segment);
+  let start = 0;
+  let lastSwap = -Infinity;
+
   const frame = (now: number): void => {
-    const progress = Math.min(1, (now - start) / duration);
-    const revealed = Math.floor(progress * finalText.length);
-    let out = finalText.slice(0, revealed);
-    for (let i = revealed; i < finalText.length; i++) {
-      const ch = finalText.charAt(i);
-      out += ch === ' ' ? ' ' : GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
+    start ||= now;
+    const t = Math.min(1, (now - start) / DURATION_MS);
+    if (t === 1) {
+      overlay.remove();
+      el.classList.remove('is-scrambling');
+      return;
     }
-    el.textContent = out;
-    if (progress < 1) requestAnimationFrame(frame);
-    else el.removeAttribute('aria-label');
+    if (now - lastSwap >= SWAP_EVERY_MS) {
+      lastSwap = now;
+      // Ease-out reveal: quick start, gentle settle on the last few characters.
+      const revealed = Math.floor((1 - (1 - t) ** 2) * chars.length);
+      overlay.textContent = chars
+        .map((ch, i) => (i < revealed || !isScramblable(ch) ? ch : randomGlyph()))
+        .join('');
+    }
+    requestAnimationFrame(frame);
   };
   requestAnimationFrame(frame);
 };
 
-/** Scramble every `[data-scramble]` heading the first time it scrolls into view. */
+/** Scramble every `[data-scramble]` heading once, when it is comfortably inside the viewport. */
 export const initScramble = (): void => {
+  if (prefersReducedMotion()) return;
+
   const io = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -35,7 +63,8 @@ export const initScramble = (): void => {
         scramble(entry.target as HTMLElement);
       }
     },
-    { threshold: 0.6 },
+    // Start only once the heading is past the lower third: by then dive/cover fades are mostly done.
+    { rootMargin: '0px 0px -35% 0px', threshold: 1 },
   );
   document.querySelectorAll('[data-scramble]').forEach((el) => {
     io.observe(el);

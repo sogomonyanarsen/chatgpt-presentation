@@ -1,6 +1,6 @@
 import { qs, qsa } from '../core/dom';
 import { prefersReducedMotion } from '../core/motion';
-import { gsap, pageY, ScrollTrigger } from '../core/scroll';
+import { gsap, layoutY, pageY, ScrollTrigger } from '../core/scroll';
 import { registerStops } from '../core/stops';
 import type { Starfield } from '../effects/starfield';
 
@@ -13,11 +13,17 @@ export const initCovers = (starfield: Starfield): void => {
 
   // The trigger spans [top - 100vh, top + height - 100vh]; stop at 48% where the title is fully legible.
   const LEGIBLE_AT = 0.48;
+  const reduced = prefersReducedMotion();
   registerStops(() =>
-    covers.map((cover) => pageY(cover) - window.innerHeight + cover.offsetHeight * LEGIBLE_AT),
+    covers.map((cover) =>
+      // Reduced motion: covers are short static blocks, so just align them under the header.
+      reduced
+        ? layoutY(cover) - 72
+        : pageY(cover) - window.innerHeight + cover.offsetHeight * LEGIBLE_AT,
+    ),
   );
 
-  if (prefersReducedMotion()) return;
+  if (reduced) return;
 
   for (const cover of covers) {
     const portal = qs('.cover__portal', cover);
@@ -50,7 +56,14 @@ export const initCovers = (starfield: Starfield): void => {
       )
       .to(
         content,
-        { opacity: 0, scale: 1.25, filter: 'blur(6px)', ease: 'power2.in', duration: 0.2 },
+        {
+          opacity: 0,
+          scale: 1.25,
+          filter: 'blur(6px)',
+          ease: 'power2.in',
+          duration: 0.2,
+          immediateRender: false,
+        },
         0.62,
       )
       .to(portal, { scale: 28, opacity: 0.9, ease: 'power3.in', duration: 0.45 }, 0.55)

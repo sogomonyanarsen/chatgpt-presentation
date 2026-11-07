@@ -28,6 +28,9 @@ export const initScroll = (): void => {
   gsap.ticker.lagSmoothing(0);
 };
 
+/** True when Lenis is smoothing the scroll (so scrubbed tweens shouldn't add their own lag). */
+export const isSmoothScrolling = (): boolean => lenis !== null;
+
 export const onScrollVelocity = (fn: VelocityListener): void => {
   velocityListeners.add(fn);
 };
@@ -38,8 +41,9 @@ export const scrollToY = (y: number, immediate = false): void => {
     lenis.scrollTo(y, { duration: 1.4 });
     return;
   }
-  // Instant jumps go native; Lenis re-syncs from the resulting scroll event.
   window.scrollTo({ top: y, behavior: immediate || prefersReducedMotion() ? 'instant' : 'smooth' });
+  // Also reset Lenis' internal target, or it would lerp back to a stale position.
+  lenis?.scrollTo(y, { immediate: true, force: true });
 };
 
 /** Where the page is heading (Lenis target while animating), so rapid key presses chain correctly. */

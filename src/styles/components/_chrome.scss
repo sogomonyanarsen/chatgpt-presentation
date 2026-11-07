@@ -1,12 +1,24 @@
 @use '../abstracts/mixins' as *;
 
-// Fixed chrome sits over every surface; light timeline panels flip it to dark ink (see hscroll.ts).
+// Fixed chrome sits over every surface. While the timeline is pinned, hscroll.ts reports which
+// panel lies under each header region, so the brand (left), chapter (centre) and menu + rail
+// (right) switch to dark ink independently over paper, sage and green panels.
 :root {
-  --chrome-ink: var(--c-ink);
+  --ink-left: var(--c-ink);
+  --ink-center: var(--c-ink);
+  --ink-right: var(--c-ink);
 }
 
-body[data-surface='light'] {
-  --chrome-ink: #111;
+body[data-surface-left='light'] {
+  --ink-left: #111;
+}
+
+body[data-surface-center='light'] {
+  --ink-center: #111;
+}
+
+body[data-surface-right='light'] {
+  --ink-right: #111;
 }
 
 // ── Header ───────────────────────────────────────────────────────────────────
@@ -20,17 +32,18 @@ body[data-surface='light'] {
   justify-content: space-between;
   height: var(--header-h);
   padding-inline: var(--gutter);
-  color: var(--chrome-ink);
   pointer-events: none;
-  transition: color 0.4s;
 
   > * {
     pointer-events: auto;
+    transition: color 0.3s;
   }
 
   &__brand {
     @include pixel-label;
 
+    padding-block: 12px; // comfortable target size
+    color: var(--ink-left);
     text-decoration: none;
   }
 
@@ -43,6 +56,7 @@ body[data-surface='light'] {
 
     display: none;
     gap: 0.75em;
+    color: var(--ink-center);
 
     @include up(md) {
       display: flex;
@@ -50,7 +64,7 @@ body[data-surface='light'] {
   }
 
   &__chapter-num {
-    opacity: 0.5;
+    opacity: 0.7;
   }
 }
 
@@ -60,7 +74,8 @@ body[data-surface='light'] {
   display: flex;
   gap: 12px;
   align-items: center;
-  padding: 8px 0;
+  padding: 12px 0;
+  color: var(--ink-right);
 
   &__label {
     display: none;
@@ -177,9 +192,9 @@ body[data-surface='light'] {
   z-index: 40;
   display: none;
   width: 7px;
-  color: var(--chrome-ink);
+  color: var(--ink-right);
   pointer-events: none;
-  transition: color 0.4s;
+  transition: color 0.3s;
 
   @include up(sm) {
     display: block;
@@ -212,10 +227,11 @@ body[data-surface='light'] {
     position: absolute;
     left: -1px;
     width: 9px;
+    top: 0;
     height: 9px;
     background: var(--c-signal);
     box-shadow: 0 0 0 1px var(--c-void);
-    transform: translateY(-50%);
+    transform: translateY(-50%); // JS writes translateY(progress) — transform only, no layout
   }
 }
 

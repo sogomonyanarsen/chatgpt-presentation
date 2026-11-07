@@ -7,12 +7,13 @@
 
 .cap {
   display: grid;
+  grid-template-areas: 'head' 'how' 'hood' 'tip';
   gap: 20px;
   align-content: center;
   max-width: var(--max-w);
   min-height: 100svh;
   margin-inline: auto;
-  padding-block: 12vh;
+  padding-block: 8vh;
 
   @include up(lg) {
     grid-template-columns: 1fr 1fr 1.15fr;
@@ -131,6 +132,12 @@
 
   &__code {
     min-width: 0;
+
+    // Long snippets scroll inside the card so the slide still fits one viewport.
+    .code-block {
+      max-height: min(44svh, 420px);
+      overflow: auto;
+    }
   }
 
   &__code-label {
@@ -214,7 +221,7 @@
   &__copy {
     @include pixel-label;
 
-    padding: 6px 10px;
+    padding: 10px 14px; // ≥ 24px target (WCAG 2.5.8)
     font-size: 0.625rem;
     border: 1px solid var(--c-line-strong);
 

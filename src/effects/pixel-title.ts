@@ -58,7 +58,8 @@ export class PixelTitle {
   private pointerX = 0;
   private pointerY = 0;
   private rafId = 0;
-  private dirty = true;
+  private resizeTimer = 0;
+  private visible = true;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -70,29 +71,44 @@ export class PixelTitle {
     this.ctx = ctx;
     this.assemble = animated ? 0 : 1;
     this.layout();
-    window.addEventListener('resize', this.layout, { passive: true });
+    window.addEventListener('resize', this.onResize, { passive: true });
     if (animated) window.addEventListener('pointermove', this.onPointer, { passive: true });
-    this.rafId = requestAnimationFrame(this.tick);
   }
 
   setProgress(value: number): void {
     const next = clamp(value, 0, 1);
-    if (next !== this.progress) {
-      this.progress = next;
-      this.dirty = true;
-    }
+    if (next === this.progress) return;
+    this.progress = next;
+    this.requestDraw();
+  }
+
+  /** While the hero is off-screen, ignore pointer parallax so the canvas never redraws. */
+  setVisible(visible: boolean): void {
+    this.visible = visible;
   }
 
   destroy(): void {
     cancelAnimationFrame(this.rafId);
-    window.removeEventListener('resize', this.layout);
+    window.clearTimeout(this.resizeTimer);
+    window.removeEventListener('resize', this.onResize);
     window.removeEventListener('pointermove', this.onPointer);
   }
 
+  /** Draw on demand: one frame per change, plus a short loop while the intro assembles. */
+  private requestDraw(): void {
+    if (this.rafId === 0) this.rafId = requestAnimationFrame(this.tick);
+  }
+
   private readonly onPointer = (e: PointerEvent): void => {
+    if (!this.visible) return;
     this.pointerX = e.clientX / window.innerWidth - 0.5;
     this.pointerY = e.clientY / window.innerHeight - 0.5;
-    this.dirty = true;
+    this.requestDraw();
+  };
+
+  private readonly onResize = (): void => {
+    window.clearTimeout(this.resizeTimer);
+    this.resizeTimer = window.setTimeout(this.layout, 150);
   };
 
   /** Rasterise the word on an offscreen canvas and sample it into a block grid. */
@@ -152,20 +168,15 @@ export class PixelTitle {
       }
     }
     this.blocks = blocks;
-    this.dirty = true;
+    this.requestDraw();
   };
 
   private readonly tick = (now: number): void => {
-    if (this.assemble < 1) {
-      // Time-based (not frame-based) so the intro lasts the same on 60 Hz and 120 Hz screens.
-      this.assemble = Math.min(1, (now - this.bornAt) / ASSEMBLE_MS);
-      this.dirty = true;
-    }
-    if (this.dirty) {
-      this.draw();
-      this.dirty = false;
-    }
-    this.rafId = requestAnimationFrame(this.tick);
+    this.rafId = 0;
+    // Time-based (not frame-based) so the intro lasts the same on 60 Hz and 120 Hz screens.
+    if (this.assemble < 1) this.assemble = Math.min(1, (now - this.bornAt) / ASSEMBLE_MS);
+    this.draw();
+    if (this.assemble < 1) this.requestDraw();
   };
 
   private draw(): void {

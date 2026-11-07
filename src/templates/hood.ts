@@ -195,7 +195,7 @@ const streaming = demo({
         <ol class="stream__log" data-stream-log data-lenis-prevent></ol>
       </div>
     </div>
-    <pre class="code-block" data-lang="ts"><code>${highlight(SSE_SNIPPET, 'ts')}</code></pre>`,
+    <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(SSE_SNIPPET, 'ts')}</code></pre>`,
   notes: [
     'Time to first token is what makes a model <em>feel</em> fast. Stream every answer.',
     'Render Markdown incrementally and sanitise it. Model output is <strong>untrusted input</strong>.',

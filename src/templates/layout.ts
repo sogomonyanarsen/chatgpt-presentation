@@ -25,7 +25,7 @@ const menuItem = (chapter: Chapter): string => `
   </li>`;
 
 export const menu = (): string => `
-<nav id="menu" class="menu" aria-label="Chapters" data-lenis-prevent hidden>
+<nav id="menu" class="menu" role="dialog" aria-modal="true" aria-label="Chapters" data-lenis-prevent hidden>
   <ol class="menu__list">${each(chapters, menuItem)}</ol>
   <p class="menu__hint">
     <kbd>→</kbd> / <kbd>PgDn</kbd> next stop · <kbd>←</kbd> / <kbd>PgUp</kbd> previous · <kbd>M</kbd> menu · <kbd>Esc</kbd> close
