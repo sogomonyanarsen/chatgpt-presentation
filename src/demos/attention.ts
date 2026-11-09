@@ -1,4 +1,5 @@
 import { qs } from '../core/dom';
+import { rt } from '../i18n/runtime';
 
 const TOKENS = [
   'The',
@@ -83,9 +84,8 @@ export const initAttention = (root: HTMLElement): void => {
       .filter(({ k }) => k !== current)
       .sort((a, b) => b.w - a.w)
       .slice(0, 2)
-      .map(({ w, k }) => `“${TOKENS[k] ?? ''}” ${(w * 100).toFixed(0)}%`)
-      .join(', ');
-    readout.textContent = `“${TOKENS[current] ?? ''}” attends most to ${top || 'itself'}. Greyed-out words come later, so it can’t see them yet.`;
+      .map(({ w, k }) => ({ token: TOKENS[k] ?? '', pct: Math.round(w * 100) }));
+    readout.textContent = rt().attention(TOKENS[current] ?? '', top);
   };
 
   const select = (event: Event): void => {

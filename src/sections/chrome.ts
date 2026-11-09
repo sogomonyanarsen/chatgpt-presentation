@@ -2,6 +2,7 @@ import { clamp, qs, qsa } from '../core/dom';
 import { layoutY, pageY, scrollTarget, scrollToY, ScrollTrigger, stopScroll } from '../core/scroll';
 import { prefersReducedMotion } from '../core/motion';
 import { allStops } from '../core/stops';
+import { rt } from '../i18n/runtime';
 
 /**
  * Header chapter indicator + right-hand progress rail with chapter ticks.
@@ -178,7 +179,7 @@ export const initCopyButtons = (): void => {
     resetTimers.set(
       button,
       window.setTimeout(() => {
-        button.textContent = 'Copy';
+        button.textContent = rt().copy;
       }, 1600),
     );
   };
@@ -188,16 +189,51 @@ export const initCopyButtons = (): void => {
     if (!button) return;
     // `navigator.clipboard` is undefined on insecure origins (e.g. presenting from a LAN IP).
     if (!window.isSecureContext || !('clipboard' in navigator)) {
-      flash(button, 'Select & copy');
+      flash(button, rt().selectAndCopy);
       return;
     }
     navigator.clipboard.writeText(button.dataset.copy ?? '').then(
       () => {
-        flash(button, 'Copied ✓');
+        flash(button, rt().copied);
       },
       () => {
-        flash(button, 'Select & copy');
+        flash(button, rt().selectAndCopy);
       },
     );
+  });
+};
+
+/**
+ * The element the presenter is looking at right now: the anchorable section (slide, cover,
+ * timeline panel, trend card…) whose centre is closest to the viewport centre. Works for the
+ * horizontal tracks too, because panels are measured where they are actually painted.
+ */
+const currentAnchor = (): HTMLElement | null => {
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  let best: HTMLElement | null = null;
+  let bestDistance = Infinity;
+  for (const el of qsa('main [id][data-stop], main [id][data-panel]')) {
+    const r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight || r.right < 0 || r.left > window.innerWidth)
+      continue;
+    const distance = Math.hypot(r.left + r.width / 2 - cx, r.top + r.height / 2 - cy);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      best = el;
+    }
+  }
+  return best;
+};
+
+/** Language switch: open the other language at the same slide (ids are shared across pages). */
+export const initLangSwitch = (): void => {
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-lang-link]');
+    if (!link || link.getAttribute('aria-current') === 'true') return;
+    const anchor = currentAnchor();
+    if (!anchor) return;
+    event.preventDefault();
+    window.location.href = `${link.href.split('#')[0] ?? link.href}#${anchor.id}`;
   });
 };

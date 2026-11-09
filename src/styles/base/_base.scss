@@ -123,3 +123,48 @@ main {
     animation-iteration-count: 1 !important;
   }
 }
+
+// ── Armenian typography ─────────────────────────────────────────────────────
+// Display headings use Anton for Latin; Armenian letters fall back to Noto Sans Armenian.
+// Variation settings only affect variable fonts, so Anton is untouched while the Armenian
+// glyphs get a heavy, condensed cut that sits well next to it.
+:lang(hy) {
+  .cover__title,
+  .panel__title,
+  .panel__stat-value,
+  .demo__title,
+  .cap__name,
+  .playbook__title,
+  .trend__title,
+  .menu__link {
+    font-variation-settings:
+      'wght' 780,
+      'wdth' 72;
+    line-height: 1;
+  }
+
+  // Armenian runs ~20% longer than English: slightly smaller card text keeps slides on one screen.
+  .cap__steps li,
+  .cap__hood-body,
+  .cap__tip {
+    font-size: 0.9rem;
+  }
+
+  .cap__what {
+    font-size: clamp(0.95rem, 0.88rem + 0.3vw, 1.1rem);
+  }
+
+  .try__prompt {
+    font-size: 0.78rem;
+  }
+
+  // Pixel labels: the Armenian fallback is wider than Silkscreen, so tighten the tracking.
+  .eyebrow,
+  .site-header__brand,
+  .site-header__chapter,
+  .menu-toggle,
+  .cap__tagline,
+  .pill-btn {
+    letter-spacing: 0;
+  }
+}

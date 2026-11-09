@@ -2,6 +2,8 @@ import '@fontsource/silkscreen/400.css';
 import '@fontsource/anton/400.css';
 import '@fontsource-variable/inter-tight';
 import '@fontsource-variable/jetbrains-mono';
+// Armenian glyphs only (unicode-range): downloaded just when Armenian text is on screen.
+import '@fontsource-variable/noto-sans-armenian/wdth.css';
 import './styles/main.scss';
 
 import { qs, qsa, whenNearViewport } from './core/dom';
@@ -17,6 +19,7 @@ import { Starfield } from './effects/starfield';
 import {
   initCopyButtons,
   initKeyboard,
+  initLangSwitch,
   initMenu,
   initNavLinks,
   initProgress,
@@ -99,6 +102,7 @@ const boot = async (): Promise<void> => {
   });
   initKeyboard(menu);
   initCopyButtons();
+  initLangSwitch();
   initProgress();
 
   await heroReady;

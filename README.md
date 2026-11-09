@@ -2,7 +2,7 @@
 
 An interactive scroll presentation about ChatGPT: where it came from, how it works under the hood, what it can do today (Nov 2026) with step-by-step guides, and where it's heading. Built for the SoftConstruct UI team.
 
-**Live:** https://sogomonyanarsen.github.io/chatgpt-presentation/
+**Live:** https://sogomonyanarsen.github.io/chatgpt-presentation/ (English) · https://sogomonyanarsen.github.io/chatgpt-presentation/hy/ (Armenian)
 
 ## Presenting
 
@@ -24,6 +24,16 @@ The bottom year bar in the timeline is clickable. Deep links work too, e.g. `#ca
 4. **Playbook**: prompt anatomy, the Responses API (streaming and structured outputs), and a team checklist
 5. **What's next**: six trends and what each means for UI developers
 6. **Q&A**, plus sources and image credits
+
+## Languages
+
+The site is built twice: `/` in English and `/hy/` in Armenian. Both pages are fully pre-rendered. The **EN / ՀԱՅ** switch in the header opens the other language on the same slide or timeline panel, because element ids are shared between the two pages.
+
+- Interface strings live in `src/i18n/ui.ts`, and strings created at runtime (demos, buttons) in `src/i18n/runtime.ts`.
+- The Armenian content (timeline, capabilities, trends, checklist, image alt text) lives in `src/i18n/hy-content.ts`, keyed by the same ids as `src/data/*`.
+- Technical terms (token, prompt, API, plugin, agent, component…) are deliberately kept in English.
+- `src/i18n/content.ts` merges the translations and **fails the build if any Armenian text is missing**.
+- Armenian letters use Noto Sans Armenian, loaded only when Armenian text is on screen.
 
 ## Stack
 

@@ -15,10 +15,13 @@
   --c-alert: #d4442f;
 
   // Typography
-  --font-display: 'Anton', 'Impact', sans-serif;
-  --font-pixel: 'Silkscreen', ui-monospace, monospace;
-  --font-body: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+  // Each stack falls back to Noto Sans Armenian for Armenian letters (the Latin faces have none).
+  --font-armenian: 'Noto Sans Armenian Variable';
+  --font-display: 'Anton', var(--font-armenian), 'Impact', sans-serif;
+  --font-pixel: 'Silkscreen', var(--font-armenian), ui-monospace, monospace;
+  --font-body: 'Inter Tight Variable', 'Inter Tight', var(--font-armenian), system-ui, sans-serif;
+  --font-mono:
+    'JetBrains Mono Variable', 'JetBrains Mono', var(--font-armenian), ui-monospace, monospace;
   --fs-label: 0.75rem;
   --fs-small: 0.875rem;
   --fs-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);

@@ -1,7 +1,5 @@
 import { qs } from '../core/dom';
-
-const ANSWER =
-  'Specificity decides which CSS rule wins when several match the same element. Browsers score each selector as a tuple — (IDs, classes/attributes/pseudo-classes, elements) — and compare left to right, so one #id beats any number of classes. Inline styles outrank selectors, !important outranks both, and when scores tie the last declared rule wins. Keep it flat: BEM classes give every rule the same weight, so source order stays predictable.';
+import { rt } from '../i18n/runtime';
 
 /** Rough word-piece split that mimics token-sized deltas. */
 const toDeltas = (text: string): string[] => text.match(/\s*[^\s]{1,6}/g) ?? [];
@@ -30,7 +28,7 @@ async function* fakeStream(signal: AbortSignal): AsyncGenerator<{ event: string;
   };
   await sleep(380, signal); // time to first token
   let outputTokens = 0;
-  for (const delta of toDeltas(ANSWER)) {
+  for (const delta of toDeltas(rt().streamAnswer)) {
     outputTokens++;
     yield {
       event: 'response.output_text.delta',

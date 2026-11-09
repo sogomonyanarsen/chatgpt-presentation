@@ -301,7 +301,6 @@ export const timeline: TimelineEntry[] = [
         polaroid: true,
       },
     ],
-    stats: [{ value: '900M', label: 'weekly users (Feb 2026)' }],
     hood: {
       title: 'Plan → do → check',
       body: 'An agent works in a loop. It makes a plan you approve, picks a tool (browser, code, an app), looks at the result, and decides the next step. Anything risky waits for your “yes”.',

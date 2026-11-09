@@ -1,4 +1,5 @@
 import { stopScroll } from '../core/scroll';
+import { rt } from '../i18n/runtime';
 
 /** Drawn as two strokes in a 24×24 box so it sits exactly centred in the round button. */
 const CLOSE_ICON = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
@@ -32,7 +33,7 @@ export const initLightbox = (): void => {
   root.hidden = true;
   root.setAttribute('role', 'dialog');
   root.setAttribute('aria-modal', 'true');
-  root.setAttribute('aria-label', 'Enlarged image');
+  root.setAttribute('aria-label', rt().enlargedImage);
   root.innerHTML = `
     <figure class="lightbox__figure">
       <img class="lightbox__img" alt="" />
@@ -40,7 +41,7 @@ export const initLightbox = (): void => {
         <span class="lightbox__title"></span><span class="lightbox__credit"></span>
       </figcaption>
     </figure>
-    <button class="lightbox__close" type="button" aria-label="Close image">${CLOSE_ICON}</button>`;
+    <button class="lightbox__close" type="button" aria-label="${rt().closeImage}">${CLOSE_ICON}</button>`;
   document.body.append(root);
 
   const image = root.querySelector<HTMLImageElement>('.lightbox__img');

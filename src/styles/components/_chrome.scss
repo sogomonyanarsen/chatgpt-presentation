@@ -68,6 +68,44 @@ body[data-surface-right='light'] {
   }
 }
 
+// ── Header actions: language switch + chapters menu ─────────────────────────
+.site-header__actions {
+  display: flex;
+  gap: clamp(14px, 2.5vw, 28px);
+  align-items: center;
+}
+
+.lang-switch {
+  @include pixel-label;
+
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--ink-right);
+
+  &__link {
+    padding: 12px 2px;
+    text-decoration: none;
+    opacity: 0.55;
+    transition: opacity 0.2s;
+
+    &:hover,
+    &[aria-current='true'] {
+      opacity: 1;
+    }
+
+    &[aria-current='true'] {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 6px;
+    }
+  }
+
+  &__sep {
+    opacity: 0.35;
+  }
+}
+
 .menu-toggle {
   @include pixel-label;
 

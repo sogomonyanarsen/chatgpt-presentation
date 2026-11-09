@@ -1,7 +1,8 @@
-import { checklist, promptAnatomy, trends, type Trend } from '../data/future';
+import type { Trend } from '../data/future';
 import { credits, sources } from '../data/sources';
 import { highlight } from './highlight';
 import { each, esc, eyebrow } from './html';
+import type { Page } from './page';
 
 const STREAM_SNIPPET = `import OpenAI from 'openai';
 
@@ -38,88 +39,95 @@ const res = await client.responses.parse({
 
 res.output_parsed?.colors; // ← typed JSON in exactly the shape we asked for`;
 
-export const playbookSection = (): string => `
-<section class="playbook" aria-label="Playbook for UI engineers">
-  <article class="playbook__block" data-stop data-dive aria-labelledby="pb-prompt">
-    ${eyebrow('4.1 · prompt anatomy', 'eyebrow')}
-    <h3 class="playbook__title" id="pb-prompt" data-fade-in>A prompt is a spec</h3>
-    <p class="playbook__intro">The AI only knows what you tell it. A good prompt reads like a good Jira ticket: who you are, what you need, the rules, the format you want, and an example.</p>
+export const playbookSection = ({ c }: Page): string => {
+  const p = c.t.playbook;
+  return `
+<section class="playbook" aria-label="${esc(p.aria)}">
+  <article class="playbook__block" id="playbook-prompt" data-stop data-dive aria-labelledby="pb-prompt">
+    ${eyebrow(p.promptEyebrow, 'eyebrow')}
+    <h3 class="playbook__title" id="pb-prompt" data-fade-in>${esc(p.promptTitle)}</h3>
+    <p class="playbook__intro">${p.promptIntro}</p>
     <div class="anatomy" data-demo="anatomy">
       <ul class="anatomy__legend">
         ${each(
-          promptAnatomy,
+          c.promptAnatomy,
           (part) =>
             `<li><button class="anatomy__key anatomy__key--${part.key}" type="button" data-part="${part.key}">${esc(part.label)}</button></li>`,
         )}
       </ul>
       <p class="anatomy__prompt">
-        ${each(promptAnatomy, (part) => `<span class="anatomy__part anatomy__part--${part.key}" data-part-text="${part.key}">${esc(part.text)}</span> `)}
+        ${each(c.promptAnatomy, (part) => `<span class="anatomy__part anatomy__part--${part.key}" data-part-text="${part.key}">${esc(part.text)}</span> `)}
       </p>
     </div>
   </article>
 
-  <article class="playbook__block" data-stop data-dive aria-labelledby="pb-api">
-    ${eyebrow('4.2 · the API in 15 lines', 'eyebrow')}
-    <h3 class="playbook__title" id="pb-api" data-fade-in>Build it into our products</h3>
-    <p class="playbook__intro">With the OpenAI API we can add ChatGPT-like features to our own products. Call it from the backend (never put the API key in the browser), stream the answer to the UI, and ask for <strong>JSON in a fixed shape</strong> when you want to render the result in components.</p>
+  <article class="playbook__block" id="playbook-api" data-stop data-dive aria-labelledby="pb-api">
+    ${eyebrow(p.apiEyebrow, 'eyebrow')}
+    <h3 class="playbook__title" id="pb-api" data-fade-in>${esc(p.apiTitle)}</h3>
+    <p class="playbook__intro">${p.apiIntro}</p>
     <div class="playbook__code-grid">
       <figure class="cap__code">
-        <figcaption class="cap__code-label">1 · stream an answer (backend)</figcaption>
+        <figcaption class="cap__code-label">${esc(p.streamLabel)}</figcaption>
         <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(STREAM_SNIPPET, 'ts')}</code></pre>
       </figure>
       <figure class="cap__code">
-        <figcaption class="cap__code-label">2 · screenshot in, typed JSON out</figcaption>
+        <figcaption class="cap__code-label">${esc(p.structuredLabel)}</figcaption>
         <pre class="code-block" data-lenis-prevent data-lang="ts"><code>${highlight(STRUCTURED_SNIPPET, 'ts')}</code></pre>
       </figure>
     </div>
   </article>
 
-  <article class="playbook__block" data-stop data-dive aria-labelledby="pb-check">
-    ${eyebrow('4.3 · start on monday', 'eyebrow')}
-    <h3 class="playbook__title" id="pb-check" data-fade-in>Team checklist</h3>
-    <ol class="checklist">${each(checklist, (item) => `<li class="checklist__item" data-reveal><span>${item}</span></li>`)}</ol>
+  <article class="playbook__block" id="playbook-checklist" data-stop data-dive aria-labelledby="pb-check">
+    ${eyebrow(p.checklistEyebrow, 'eyebrow')}
+    <h3 class="playbook__title" id="pb-check" data-fade-in>${esc(p.checklistTitle)}</h3>
+    <ol class="checklist">${each(c.checklist, (item) => `<li class="checklist__item" data-reveal><span>${item}</span></li>`)}</ol>
   </article>
 </section>`;
+};
 
-const trendCard = (trend: Trend, index: number): string => `
-  <li class="trend" data-panel>
+const trendCard = (trend: Trend, index: number, forUs: string): string => `
+  <li class="trend" id="trend-${index + 1}" data-panel>
     <p class="trend__num">${String(index + 1).padStart(2, '0')}</p>
     <h3 class="trend__title">${esc(trend.title)}</h3>
     <p class="trend__body">${trend.body}</p>
-    <p class="trend__for-us"><span class="trend__for-us-label">for UI devs</span><span>${trend.forUs}</span></p>
+    <p class="trend__for-us"><span class="trend__for-us-label">${esc(forUs)}</span><span>${trend.forUs}</span></p>
   </li>`;
 
-export const futureSection = (): string => `
-<section class="hscroll future" aria-label="Future trends" data-hscroll="future">
+export const futureSection = ({ c }: Page): string => `
+<section class="hscroll future" aria-label="${esc(c.t.future.aria)}" data-hscroll="future">
   <div class="hscroll__viewport">
-    <ol class="hscroll__track future__track">${each(trends, trendCard)}</ol>
+    <ol class="hscroll__track future__track">${each(c.trends, (trend, i) => trendCard(trend, i, c.t.future.forUs))}</ol>
   </div>
 </section>`;
 
-export const outroSection = (): string => `
-<section class="outro" id="outro" data-chapter="06" data-chapter-title="Q &amp; A" data-stop aria-labelledby="outro-title">
+export const outroSection = ({ c }: Page): string => {
+  const o = c.t.outro;
+  const chapter = c.chapters.find((ch) => ch.id === 'outro');
+  return `
+<section class="outro" id="outro" data-chapter="06" data-chapter-title="${esc(chapter?.title ?? '')}" data-stop aria-labelledby="outro-title">
   <div class="outro__stage">
-    ${eyebrow('thank you', 'eyebrow outro__eyebrow')}
-    <h2 class="outro__title" id="outro-title" data-fade-in>Questions?</h2>
-    <p class="outro__lead">Bring a real task from your sprint and we will try it live.</p>
+    ${eyebrow(o.eyebrow, 'eyebrow outro__eyebrow')}
+    <h2 class="outro__title" id="outro-title" data-fade-in>${esc(o.title)}</h2>
+    <p class="outro__lead">${esc(o.lead)}</p>
   </div>
   <div class="outro__refs">
     <details class="refs">
-      <summary class="refs__summary">Sources (${sources.length})</summary>
-      <ol class="refs__list">
+      <summary class="refs__summary">${esc(o.sources)} (${sources.length})</summary>
+      <ol class="refs__list" lang="en">
         ${each(sources, (s) => `<li><a href="${s.url}" target="_blank" rel="noopener noreferrer">${esc(s.label)}</a></li>`)}
       </ol>
     </details>
     <details class="refs">
-      <summary class="refs__summary">Image credits (${Object.keys(credits).length})</summary>
-      <ol class="refs__list">
+      <summary class="refs__summary">${esc(o.credits)} (${Object.keys(credits).length})</summary>
+      <ol class="refs__list" lang="en">
         ${each(
           Object.values(credits),
-          (c) =>
-            `<li><a href="${c.url}" target="_blank" rel="noopener noreferrer">${esc(c.title)}</a> · ${esc(c.author)} · ${esc(c.license)}</li>`,
+          (cr) =>
+            `<li><a href="${cr.url}" target="_blank" rel="noopener noreferrer">${esc(cr.title)}</a> · ${esc(cr.author)} · ${esc(cr.license)}</li>`,
         )}
       </ol>
     </details>
-    <p class="outro__note">Facts current as of November 2026. Product details change quickly, so check the release notes before quoting.</p>
+    <p class="outro__note">${esc(o.note)}</p>
   </div>
 </section>`;
+};
