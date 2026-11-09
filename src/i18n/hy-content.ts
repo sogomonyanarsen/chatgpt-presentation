@@ -33,8 +33,8 @@ export interface CapabilityText {
 export const hyChapters: Record<string, { title: string; lead: string }> = {
   intro: { title: 'Ներածություն', lead: '' },
   history: {
-    title: 'Ակունքներ',
-    lead: '2017-ի գիտական հոդվածից մինչև աշխարհի ամենաշատ օգտագործվող հավելվածներից մեկը։ Ոլորեք կողք՝ ինը տարվա միջով։',
+    title: 'ChatGPT-ի սկիզբը',
+    lead: '2017-ի գիտական հոդվածից մինչև աշխարհի ամենաշատ օգտագործվող հավելվածներից մեկը։',
   },
   hood: {
     title: 'Ինչպես է աշխատում',
@@ -42,7 +42,7 @@ export const hyChapters: Record<string, { title: string; lead: string }> = {
   },
   capabilities: {
     title: 'Հնարավորություններ',
-    lead: 'Ինչ կարող է անել ChatGPT-ն այսօր. ինչպես օգտագործել ամեն հնարավորություն՝ քայլ առ քայլ, և ինչ է կատարվում կուլիսներում։',
+    lead: 'Ինչ կարող է անել ChatGPT-ն այսօր. ինչպես օգտագործել ամեն հնարավորություն։',
   },
   playbook: {
     title: 'Գործնական խորհուրդներ',
@@ -75,8 +75,8 @@ export const hyTimeline: Record<string, TimelineText> = {
     lead: 'OpenAI-ը Transformer-ին սովորեցնում է մի պարզ խաղ՝ <strong>գուշակել հաջորդ բառը</strong>։ Այն կարդում է մոտ 7000 գիրք և զարմանալիորեն լավ է սկսում հասկանալ լեզուն։',
     stats: ['պարամետր', 'կարդացած գիրք'],
     hood: {
-      title: 'Բաղադրատոմսը, որը մնաց',
-      body: '1) <em>Pre-train</em>՝ թող կարդա շատ տեքստ և նորից ու նորից գուշակի հաջորդ բառը։ 2) <em>Fine-tune</em>՝ տուր մի քանի օրինակ կոնկրետ խնդրի համար։ Դրանից հետո բոլոր GPT-ները հետևում են այս բաղադրատոմսին, պարզապես շատ ավելի մեծ մասշտաբով։',
+      title: 'Հիմքը, որը մնաց',
+      body: '1) <em>Pre-train</em>՝ թող կարդա շատ տեքստ և նորից ու նորից գուշակի հաջորդ բառը։ 2) <em>Fine-tune</em>՝ տուր մի քանի օրինակ կոնկրետ խնդրի համար։ Դրանից հետո բոլոր GPT-ները հենվում են այս հիմքի վրա, պարզապես շատ ավելի մեծ մասշտաբով։',
     },
   },
   y2019: {
@@ -466,12 +466,3 @@ export const hyPromptAnatomy: Record<string, { label: string; text: string }> = 
     text: '<տեղադրեք component-ը + mobile layout-ի screenshot-ը>',
   },
 };
-
-export const hyChecklist: Rich[] = [
-  'Կարգավորեք <strong>custom instructions</strong>՝ մեր stack-ով և կանոններով։',
-  'Օգտագործեք <strong>Thinking</strong>-ը ճարտարապետության և debugging-ի համար, իսկ <strong>Instant</strong>-ը՝ boilerplate-ի համար։',
-  'Ամեն feature-ի համար ստեղծեք <strong>Project</strong>՝ spec-ով և design tokens-ով։',
-  'Ավելացրեք <code>AGENTS.md</code> repo-ներում և փորձեք <strong>Codex</strong>-ը մեկ փոքր ticket-ի վրա։',
-  'Ստեղծեք մեկ ներքին <strong>plugin</strong> (MCP + UI), որպեսզի հասկանաք, թե ինչպես է աշխատում պլատֆորմը։',
-  'Միշտ <strong>ստուգեք</strong>. գործարկեք, test արեք, կարդացեք diff-ը։',
-];

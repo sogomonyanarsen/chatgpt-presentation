@@ -79,12 +79,3 @@ export const promptAnatomy: PromptPart[] = [
     text: '<paste component + a screenshot of the broken mobile layout>',
   },
 ];
-
-export const checklist: Rich[] = [
-  'Set <strong>custom instructions</strong> with our stack and conventions.',
-  'Use <strong>Thinking</strong> for architecture and debugging, and <strong>Instant</strong> for boilerplate.',
-  'Create a <strong>Project</strong> per feature with the spec and design tokens.',
-  'Add an <code>AGENTS.md</code> to repos and try <strong>Codex</strong> on one small ticket.',
-  'Build one internal <strong>plugin</strong> (MCP + UI) to learn how the platform works.',
-  'Always <strong>verify</strong>: run it, test it, read the diff.',
-];

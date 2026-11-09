@@ -10,8 +10,8 @@ export const chapters: Chapter[] = [
   {
     id: 'history',
     number: '01',
-    title: 'Origins',
-    lead: 'From a 2017 research paper to one of the most used apps in the world. Scroll sideways through nine years.',
+    title: 'How ChatGPT began',
+    lead: 'From a 2017 research paper to one of the most used apps in the world.',
   },
   {
     id: 'hood',
@@ -23,7 +23,7 @@ export const chapters: Chapter[] = [
     id: 'capabilities',
     number: '03',
     title: 'Capabilities',
-    lead: 'What ChatGPT can do today: how to use each feature, step by step, and what happens behind the scenes.',
+    lead: 'What ChatGPT can do today: and how to use each feature.',
   },
   {
     id: 'playbook',

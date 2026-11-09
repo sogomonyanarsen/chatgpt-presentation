@@ -32,16 +32,6 @@
       color: var(--c-ink);
     }
   }
-
-  &__code-grid {
-    display: grid;
-    gap: 20px;
-    min-width: 0;
-
-    @include up(lg) {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
 }
 
 $parts: (
@@ -93,31 +83,6 @@ $parts: (
 
     &[data-active='#{$name}'] .anatomy__part:not(.anatomy__part--#{$name}) {
       opacity: 0.2;
-    }
-  }
-}
-
-.checklist {
-  display: grid;
-  gap: 4px;
-  counter-reset: check;
-
-  &__item {
-    display: flex;
-    gap: 20px;
-    align-items: baseline;
-    padding: clamp(14px, 2vh, 22px) 0;
-    font-size: var(--fs-lead);
-    border-bottom: 1px solid var(--c-line);
-    counter-increment: check;
-
-    &::before {
-      flex: none;
-      width: 3ch;
-      font-family: var(--font-pixel);
-      font-size: var(--fs-small);
-      color: var(--c-signal);
-      content: counter(check, decimal-leading-zero);
     }
   }
 }
@@ -206,11 +171,6 @@ $parts: (
     line-height: 1;
     color: var(--c-signal);
     text-shadow: 0 0 40px rgb(200 255 61 / 35%);
-  }
-
-  &__lead {
-    font-size: var(--fs-lead);
-    color: var(--c-muted);
   }
 
   &__refs {

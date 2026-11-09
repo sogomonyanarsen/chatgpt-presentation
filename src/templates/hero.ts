@@ -12,6 +12,7 @@ export const hero = ({ c }: Page): string => {
       ${eyebrow(c.t.hero.eyebrow, 'eyebrow hero__eyebrow')}
       <h1 class="hero__title"><span class="hero__title-text">ChatGPT</span></h1>
       <p class="hero__sub">${esc(c.t.hero.sub)}</p>
+      <p class="hero__author">${esc(c.t.hero.author)}</p>
       <a class="pill-btn hero__cta" href="#history" data-nav-link>
         ${esc(c.t.hero.cta)}
         <span class="pill-btn__arrow" aria-hidden="true">↓</span>
@@ -26,6 +27,10 @@ export const hero = ({ c }: Page): string => {
 </section>`;
 };
 
+/** Length of the longest word, so CSS can shrink long single-word titles to fit the screen. */
+const longestWord = (text: string): number =>
+  Math.max(...text.split(/\s+/).map((word) => Array.from(word).length));
+
 /** Chapter cover: a sticky “portal” that the camera dives through on scroll. */
 export const cover = ({ c }: Page, chapter: Chapter): string => `
 <section class="cover" id="${chapter.id}" data-chapter="${chapter.number}" data-chapter-title="${esc(chapter.title)}" data-stop aria-labelledby="${chapter.id}-title">
@@ -33,7 +38,7 @@ export const cover = ({ c }: Page, chapter: Chapter): string => `
     <p class="cover__portal" aria-hidden="true">${chapter.number}</p>
     <div class="cover__content">
       ${eyebrow(c.t.chapter(chapter.number), 'eyebrow cover__eyebrow')}
-      <h2 class="cover__title" id="${chapter.id}-title">${esc(chapter.title)}</h2>
+      <h2 class="cover__title" id="${chapter.id}-title" style="--longest: ${String(longestWord(chapter.title))}">${esc(chapter.title)}</h2>
       <p class="cover__lead">${esc(chapter.lead)}</p>
     </div>
   </div>

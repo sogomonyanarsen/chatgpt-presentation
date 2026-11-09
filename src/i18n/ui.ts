@@ -12,7 +12,8 @@ const en: UiStrings = {
   language: 'Language',
   hero: {
     eyebrow: 'SoftConstruct · UI engineering talk · Nov 2026',
-    sub: 'Origins, capabilities and what comes next, explained for people who build interfaces.',
+    sub: 'History, capabilities and what comes next',
+    author: 'Arsen Sogomonyan',
     cta: 'Start the dive',
     manifesto:
       'In <strong>2017</strong> it was an idea in a research paper. By <strong>2026</strong> nearly <strong>a billion people</strong> use it every week, and it builds UIs, writes code and browses the web on its own.',
@@ -151,20 +152,11 @@ const en: UiStrings = {
     promptTitle: 'A prompt is a spec',
     promptIntro:
       'The AI only knows what you tell it. A good prompt reads like a good Jira ticket: who you are, what you need, the rules, the format you want, and an example.',
-    apiEyebrow: '4.2 · the API in 15 lines',
-    apiTitle: 'Build it into our products',
-    apiIntro:
-      'With the OpenAI API we can add ChatGPT-like features to our own products. Call it from the backend (never put the API key in the browser), stream the answer to the UI, and ask for <strong>JSON in a fixed shape</strong> when you want to render the result in components.',
-    streamLabel: '1 · stream an answer (backend)',
-    structuredLabel: '2 · screenshot in, typed JSON out',
-    checklistEyebrow: '4.3 · start on monday',
-    checklistTitle: 'Team checklist',
   },
   future: { aria: 'Future trends', forUs: 'for UI devs' },
   outro: {
     eyebrow: 'thank you',
     title: 'Questions?',
-    lead: 'Bring a real task from your sprint and we will try it live.',
     sources: 'Sources',
     credits: 'Image credits',
     note: 'Facts current as of November 2026. Product details change quickly, so check the release notes before quoting.',
@@ -184,7 +176,8 @@ const hy: UiStrings = {
   language: 'Լեզու',
   hero: {
     eyebrow: 'SoftConstruct · UI թիմի ելույթ · Նոյեմբեր 2026',
-    sub: 'Պատմությունը, հնարավորություններն ու ապագան՝ պարզ բացատրված UI ստեղծողների համար։',
+    sub: 'Պատմությունը, հնարավորություններն ու ապագան',
+    author: 'Արսեն Սողոմոնյան',
     cta: 'Սկսենք',
     manifesto:
       '<strong>2017</strong>-ին սա ընդամենը գաղափար էր գիտական հոդվածում։ <strong>2026</strong>-ին այն ամեն շաբաթ օգտագործում է մոտ <strong>մեկ միլիարդ մարդ</strong>, իսկ ինքը UI է կառուցում, կոդ է գրում և ինտերնետում ինքնուրույն աշխատում։',
@@ -323,20 +316,11 @@ const hy: UiStrings = {
     promptTitle: 'Prompt-ը առաջադրանք է',
     promptIntro:
       'AI-ը գիտի միայն այն, ինչ դուք իրեն ասում եք։ Լավ prompt-ը նման է լավ Jira ticket-ի. ով եք դուք, ինչ է պետք, ինչ կանոններ կան, ինչ ձևաչափով եք ուզում պատասխանը, և մի օրինակ։',
-    apiEyebrow: '4.2 · API-ը 15 տողում',
-    apiTitle: 'Ավելացնենք մեր պրոդուկտներում',
-    apiIntro:
-      'OpenAI API-ի միջոցով կարող ենք ChatGPT-ի նման հնարավորություններ ավելացնել մեր պրոդուկտներում։ Կանչեք այն backend-ից (API key-ը երբեք մի դրեք browser-ում), stream արեք պատասխանը UI-ին և խնդրեք <strong>JSON՝ որոշակի կառուցվածքով</strong>, երբ ուզում եք արդյունքը ցույց տալ component-ներով։',
-    streamLabel: '1 · stream անել պատասխանը (backend)',
-    structuredLabel: '2 · screenshot՝ ներս, typed JSON՝ դուրս',
-    checklistEyebrow: '4.3 · սկսենք երկուշաբթիից',
-    checklistTitle: 'Թիմի checklist',
   },
   future: { aria: 'Ապագայի միտումները', forUs: 'UI ծրագրավորողների համար' },
   outro: {
     eyebrow: 'շնորհակալություն',
     title: 'Հարցե՞ր',
-    lead: 'Բերեք իրական task ձեր sprint-ից, և կփորձենք հենց հիմա։',
     sources: 'Աղբյուրներ',
     credits: 'Նկարների հեղինակներ',
     note: 'Տվյալները ճիշտ են 2026 թ. նոյեմբերի դրությամբ։ Պրոդուկտների մանրամասներն արագ են փոխվում, ուստի մեջբերելուց առաջ ստուգեք release notes-ը։',

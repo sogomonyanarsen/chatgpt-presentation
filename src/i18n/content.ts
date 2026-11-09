@@ -1,12 +1,11 @@
 import { capabilities } from '../data/capabilities';
 import { chapters } from '../data/chapters';
-import { checklist, promptAnatomy, trends } from '../data/future';
+import { promptAnatomy, trends } from '../data/future';
 import { timeline } from '../data/timeline';
 import type { Capability, Figure, TimelineEntry } from '../data/types';
 import {
   hyCapabilities,
   hyChapters,
-  hyChecklist,
   hyFigures,
   hyPromptAnatomy,
   hyTimeline,
@@ -74,7 +73,6 @@ const english: Content = {
   capabilities,
   trends,
   promptAnatomy,
-  checklist,
 };
 
 const armenian = (): Content => ({
@@ -88,7 +86,6 @@ const armenian = (): Content => ({
     ...p,
     ...need(hyPromptAnatomy[p.key], `prompt ${p.key}`),
   })),
-  checklist: checklist.map((_, i) => need(hyChecklist[i], `checklist ${i}`)),
 });
 
 export const getContent = (lang: Lang): Content => (lang === 'hy' ? armenian() : english);

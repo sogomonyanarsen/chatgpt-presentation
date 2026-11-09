@@ -143,6 +143,12 @@ main {
     line-height: 1;
   }
 
+  // Long Armenian words (e.g. Հնարավորություններ) are wider than the screen at the English size.
+  // Each glyph is ~0.62em wide, so cap the size by the longest word and the space between gutters.
+  .cover__title {
+    font-size: min(var(--fs-h2), calc((100vw - 2 * var(--gutter)) / (var(--longest, 8) * 0.66)));
+  }
+
   // Armenian runs ~20% longer than English: slightly smaller card text keeps slides on one screen.
   .cap__steps li,
   .cap__hood-body,

@@ -23,6 +23,7 @@ export interface UiStrings {
   hero: {
     eyebrow: string;
     sub: string;
+    author: string;
     cta: string;
     manifesto: Rich;
     manifestoCta: string;
@@ -68,19 +69,11 @@ export interface UiStrings {
     promptEyebrow: string;
     promptTitle: string;
     promptIntro: Rich;
-    apiEyebrow: string;
-    apiTitle: string;
-    apiIntro: Rich;
-    streamLabel: string;
-    structuredLabel: string;
-    checklistEyebrow: string;
-    checklistTitle: string;
   };
   future: { aria: string; forUs: string };
   outro: {
     eyebrow: string;
     title: string;
-    lead: string;
     sources: string;
     credits: string;
     note: string;
@@ -97,5 +90,4 @@ export interface Content {
   capabilities: Capability[];
   trends: Trend[];
   promptAnatomy: PromptPart[];
-  checklist: Rich[];
 }

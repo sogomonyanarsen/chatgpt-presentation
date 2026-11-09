@@ -68,6 +68,14 @@
     color: var(--c-muted);
   }
 
+  &__author {
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    color: var(--c-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
   &__manifesto {
     position: absolute;
     inset: 50% var(--gutter) auto;

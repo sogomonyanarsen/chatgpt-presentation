@@ -48,8 +48,8 @@ export const timeline: TimelineEntry[] = [
       { value: '7,000', label: 'books read' },
     ],
     hood: {
-      title: 'The recipe that stuck',
-      body: '1) <em>Pre-train</em>: let it read lots of text and guess the next word, over and over. 2) <em>Fine-tune</em>: give it a few examples of a specific task. Every GPT since follows this recipe, just at a much larger scale.',
+      title: 'The foundation that stuck',
+      body: '1) <em>Pre-train</em>: let it read lots of text and guess the next word, over and over. 2) <em>Fine-tune</em>: give it a few examples of a specific task. Every GPT since builds on this foundation, just at a much larger scale.',
     },
   },
   {
